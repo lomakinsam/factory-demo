@@ -11,6 +11,8 @@ namespace ModularRobot
 
         public GameObject gameObject { get; private set; }
 
+        public ModuleType[] modules => new ModuleType[] { ModuleType.Hull, ModuleType.Chip, ModuleType.Sensor, ModuleType.Chassis }; 
+
         public RobotDefault(DamageableModule hull,
                             DamageableModule chip,
                             DamageableModule sensor,

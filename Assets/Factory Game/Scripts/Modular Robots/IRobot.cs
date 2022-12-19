@@ -6,6 +6,7 @@ namespace ModularRobot
     {
         GameObject gameObject { get; }
         DamageType? DamageStatus { get; }
+        ModuleType[] modules { get; }
 
         DamageType? GetDamageStatus(ModuleType module);
         void SetDamage(ModuleType module, DamageType damage);

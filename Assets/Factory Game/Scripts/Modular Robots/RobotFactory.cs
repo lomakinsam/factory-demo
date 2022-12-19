@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Linq;
 using System.Reflection;
 
 namespace ModularRobot
@@ -8,6 +7,9 @@ namespace ModularRobot
     public class RobotFactory : ScriptableObject
     {
         [SerializeField]
+        private RobotSimplified robotSimplified;
+
+        [SerializeField]
         private DamageableModule[] hulls;
         [SerializeField]
         private DamageableModule[] chips;
@@ -15,6 +17,24 @@ namespace ModularRobot
         private DamageableModule[] sensors;
         [SerializeField]
         private DamageableModule[] wheels;
+
+        public IRobot CreateRobotSimplified(bool allowDamage = false)
+        {
+            IRobot robot = Instantiate(robotSimplified, null);
+
+            if (allowDamage)
+            {
+                foreach (var module in robot.modules)
+                {
+                    int damageStatus = Random.Range(0, 2);
+
+                    if (damageStatus == 1)
+                        robot.SetDamage(module, GenerateRandomDamage());
+                }
+            }
+
+            return robot;
+        }
 
         public IRobot CreateRobotDefault()
         {
@@ -33,7 +53,7 @@ namespace ModularRobot
 
             if (allowDamage)
             {
-                foreach (var module in System.Enum.GetValues(typeof(ModuleType)).Cast<ModuleType>())
+                foreach (var module in robot.modules)
                 {
                     int damageStatus = Random.Range(0, 2);
 
