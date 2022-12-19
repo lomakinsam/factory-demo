@@ -18,19 +18,29 @@ namespace ModularRobot
         [SerializeField]
         private DamageableModule[] wheels;
 
+        private DamageType randomDamage => (DamageType)Random.Range(0, System.Enum.GetValues(typeof(DamageType)).Length);
+
         public IRobot CreateRobotSimplified(bool allowDamage = false)
         {
             IRobot robot = Instantiate(robotSimplified, null);
 
             if (allowDamage)
             {
-                foreach (var module in robot.modules)
+                bool isDamaged = false;
+
+                foreach (var module in robot.Modules)
                 {
                     int damageStatus = Random.Range(0, 2);
 
                     if (damageStatus == 1)
-                        robot.SetDamage(module, GenerateRandomDamage());
+                    {
+                        robot.SetDamage(module, randomDamage);
+                        isDamaged = true;
+                    }
                 }
+
+                if (!isDamaged)
+                    robot.SetDamage(ModuleType.Hull, randomDamage);
             }
 
             return robot;
@@ -53,22 +63,16 @@ namespace ModularRobot
 
             if (allowDamage)
             {
-                foreach (var module in robot.modules)
+                foreach (var module in robot.Modules)
                 {
                     int damageStatus = Random.Range(0, 2);
 
                     if (damageStatus == 1)
-                        robot.SetDamage(module, GenerateRandomDamage());
+                        robot.SetDamage(module, randomDamage);
                 }
             }
 
             return robot;
-        }
-
-        private DamageType GenerateRandomDamage()
-        {
-            DamageType damage = (DamageType)Random.Range(0, System.Enum.GetValues(typeof(DamageType)).Length);
-            return damage;
         }
 
         private AxlesGroup[] GenerateRandomChassisLayout()

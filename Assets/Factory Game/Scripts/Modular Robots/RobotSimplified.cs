@@ -8,8 +8,13 @@ namespace ModularRobot
         private DamageableModule hull;
         [SerializeField]
         private DamageableModule chassis;
+        [SerializeField]
+        private Rigidbody robotRigidbody;
 
-        public ModuleType[] modules => new ModuleType[] { ModuleType.Hull, ModuleType.Chassis };
+        public ModuleType[] Modules => new ModuleType[] { ModuleType.Hull, ModuleType.Chassis };
+
+        public Rigidbody Rigidbody => robotRigidbody; 
+            
 
         public DamageType? DamageStatus
         {
