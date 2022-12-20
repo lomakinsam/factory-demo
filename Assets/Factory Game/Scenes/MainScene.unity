@@ -28830,8 +28830,10 @@ MonoBehaviour:
   robotFactory: {fileID: 11400000, guid: 734f828366daed040a055bd95cb7d277, type: 2}
   initialDelay: 2
   spawnDelay: 5
-  forwardPushLimits: {x: 50, y: 60}
+  forwardPushLimits: {x: 8, y: 12}
   pushAngleLimits: {x: -10, y: 25}
+  packageSide: {fileID: 3552400657763999871, guid: f17949c9b8080f8408f084f695c54d06,
+    type: 3}
 --- !u!65 &1449234763
 BoxCollider:
   m_ObjectHideFlags: 0
