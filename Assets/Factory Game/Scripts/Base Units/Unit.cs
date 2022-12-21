@@ -6,7 +6,7 @@ namespace BaseUnit
     [RequireComponent(typeof(NavMeshAgent))]
     public class Unit : MonoBehaviour
     {
-        private NavMeshAgent navMeshAgent;
+        protected NavMeshAgent navMeshAgent;
 
         protected virtual void Awake()
         {
