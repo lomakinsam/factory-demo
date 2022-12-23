@@ -1,7 +1,7 @@
 namespace BaseUnit.Commands
 {
-    public interface IInteractable<T>
+    public interface IInteractable<T> where T : UnityEngine.Object
     {
-        public void Interact(T interactionInfo);
+        public void Interact(T interactionSender);
     }
 }

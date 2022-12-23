@@ -1,4 +1,5 @@
 using System;
+using BaseUnit;
 
 namespace BaseUnit.Commands
 {
@@ -11,13 +12,13 @@ namespace BaseUnit.Commands
         public override CommandState CommandState => commandState;
         private CommandState commandState;
 
-        private readonly IInteractable<T> interactionTarget;
-        private readonly T interactionInfo;
+        private readonly IInteractable<Player> interactionTarget;
+        private readonly Player interactionSender;
 
-        public InteractCommand(IInteractable<T> interactionTarget, T interactionInfo)
+        public InteractCommand(IInteractable<Player> interactionTarget, Player interactionSender)
         {
             this.interactionTarget = interactionTarget;
-            this.interactionInfo = interactionInfo;
+            this.interactionSender = interactionSender;
         }
 
         public override void Execute()
@@ -25,7 +26,7 @@ namespace BaseUnit.Commands
             commandState = CommandState.Executing;
             OnStart?.Invoke();
 
-            interactionTarget.Interact(interactionInfo);
+            interactionTarget.Interact(interactionSender);
 
             commandState = CommandState.Pending;
             OnComlete?.Invoke();
