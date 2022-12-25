@@ -20,7 +20,7 @@ MonoBehaviour:
     x: 941
     y: -190
     width: 424
-    height: 2579
+    height: 2692
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -900,7 +900,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614650}
   - {fileID: 8926484042661614667}
   - {fileID: 8926484042661614593}
-  m_UIPosition: {x: 941, y: 1692}
+  m_UIPosition: {x: 941, y: 1805}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -2087,7 +2087,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Plane, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"position":{"x":0.0,"y":0.0,"z":1.5},"normal":{"x":0.0,"y":0.0,"z":-1.0}}'
+      m_SerializableObject: '{"position":{"x":0.0,"y":0.0,"z":0.5},"normal":{"x":0.0,"y":0.0,"z":-1.0}}'
     m_Space: 0
   m_Property:
     name: Plane
@@ -2391,7 +2391,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.1
+      m_SerializableObject: 1
     m_Space: 2147483647
   m_Property:
     name: Bounce
@@ -2459,7 +2459,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.54
+      m_SerializableObject: 0.45
     m_Space: 2147483647
   m_Property:
     name: LifetimeLoss
