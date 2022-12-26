@@ -1,11 +1,17 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.VFX;
+using BaseUnit;
+using BaseUnit.Commands;
 
 namespace Environment
 {
-    public class Workbench : MonoBehaviour
+    public class Workbench : MonoBehaviour, IInteractable<Player>
     {
+        [Header("General Setup")]
+        [SerializeField] private Transform[] supplieSlots;
+        [SerializeField] private Transform brokenRobotSlot;
+
         [Header("Robotic Hand Setup")]
         [SerializeField] private Animator roboticHandAnimator;
         [SerializeField] private VisualEffect sparksEffect;
@@ -45,6 +51,11 @@ namespace Environment
 
                 yield return new WaitForSeconds(enclosingTime);
             }
+        }
+
+        public void Interact(Player interactionSender)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

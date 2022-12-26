@@ -7,9 +7,9 @@ namespace BaseUnit.Commands
 {
     public class MoveCommand : Command
     {
-        public override event Action OnStart;
-        public override event Action OnComlete;
-        public override event Action OnCancel;
+        public override event Action<Command> OnStart;
+        public override event Action<Command> OnComlete;
+        public override event Action<Command> OnCancel;
 
         public override CommandState CommandState => commandState;
         private CommandState commandState;
@@ -32,7 +32,7 @@ namespace BaseUnit.Commands
         public override void Execute()
         {
             commandState = CommandState.Executing;
-            OnStart?.Invoke();
+            OnStart?.Invoke(this);
 
             agent.SetDestination(destination);
 
@@ -45,7 +45,7 @@ namespace BaseUnit.Commands
             yield return new WaitUntil(() => agent.remainingDistance < minDistance);
 
             commandState = CommandState.Pending;
-            OnComlete?.Invoke();
+            OnComlete?.Invoke(this);
         }
 
         public override void Cancel()
@@ -62,7 +62,7 @@ namespace BaseUnit.Commands
             }
 
             commandState = CommandState.Pending;
-            OnCancel?.Invoke();
+            OnCancel?.Invoke(this);
         }
     }
 }

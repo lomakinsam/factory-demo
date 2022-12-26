@@ -2,14 +2,16 @@ using System;
 
 namespace BaseUnit.Commands
 {
-    public class GrabCommand<T> : Command
+    public class GrabCommand<T> : Command, IDisplayable
     {
-        public override event Action OnStart;
-        public override event Action OnComlete;
-        public override event Action OnCancel;
+        public override event Action<Command> OnStart;
+        public override event Action<Command> OnComlete;
+        public override event Action<Command> OnCancel;
 
         public override CommandState CommandState => commandState;
         private CommandState commandState;
+
+        public DisplayableInfo displayableInfo => throw new NotImplementedException();
 
         private Inventory<T> inventory;
         private readonly T item;
@@ -23,18 +25,18 @@ namespace BaseUnit.Commands
         public override void Execute()
         {
             commandState = CommandState.Executing;
-            OnStart?.Invoke();
+            OnStart?.Invoke(this);
 
             inventory.Put(item);
 
             commandState = CommandState.Pending;
-            OnComlete?.Invoke();
+            OnComlete?.Invoke(this);
         }
 
         public override void Cancel()
         {
             commandState = CommandState.Pending;
-            OnCancel?.Invoke();
+            OnCancel?.Invoke(this);
         }
     }
 }

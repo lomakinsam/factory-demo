@@ -1,36 +1,205 @@
 using UnityEngine;
+using System.Collections.Generic;
+using BaseUnit.Commands;
+using ModularRobot;
+using Resources;
+using Environment;
 
 namespace BaseUnit
 {
     public class Player : Unit
     {
         [SerializeField] private Camera gameCamera;
+        [SerializeField] private Transform inventorySlot;
 
-        private Vector3? DestinationPoint
+        private List<Command> commandsList;
+        private const int maxDisplayableCommands = 5;
+
+        private Inventory<Component> playerInventory;
+
+        private int displayableCommandsCount
         {
             get
             {
-                var ray = gameCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit))
-                    return hit.point;
-                else
-                    return null;
+                int result = 0;
+
+                foreach (var command in commandsList)
+                {
+                    if (command is IDisplayable) result++;
+                }
+
+                return result;
             }
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            commandsList = new();
+            playerInventory = new();
         }
 
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
-                HandleAction();
+                ReceiveCommands();
         }
 
-        private void HandleAction()
+        public void SetItem(Component item)
         {
-            Vector3? destinationPoint = DestinationPoint;
-
-            if (destinationPoint != null)
-                MoveTo((Vector3)destinationPoint);
+            throw new System.NotImplementedException();
         }
-    }
 
+        public Component GetItem()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void ReceiveCommands()
+        {
+            if (displayableCommandsCount >= maxDisplayableCommands) return;
+
+            var ray = gameCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                Package package = hit.transform.GetComponent<Package>();
+                if (package != null)
+                {
+                    PackageRaycastHitResponse(package);
+                    return;
+                }
+
+                SuppliesPile suppliesPile = hit.transform.GetComponent<SuppliesPile>();
+                if (suppliesPile != null)
+                {
+                    SuppliesPileRaycastHitResponse(suppliesPile);
+                    return;
+                }
+
+                Workbench workbench = hit.transform.GetComponent<Workbench>();
+                if (workbench != null)
+                {
+                    WorkbenchRaycastHitResponse(workbench);
+                    return;
+                }
+
+                DropZone dropZone = hit.transform.GetComponent<DropZone>();
+                if (dropZone != null)
+                {
+                    DropZoneRaycastHitResponse(dropZone);
+                    return;
+                }
+            }
+        }
+
+        private void PackageRaycastHitResponse(Package package)
+        {
+            Command moveCommand = new MoveCommand(navMeshAgent, package.transform.position);
+            commandsList.Add(moveCommand);
+
+            if (commandsList.Count == 1) moveCommand.Execute();
+
+            Command grabCommand = new GrabCommand<Component>(playerInventory, package);
+            commandsList.Add(grabCommand);
+
+            moveCommand.OnComlete += SwitchToNextCommand;
+            moveCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: grabCommand, preliminaryCommands: new Command[] { moveCommand }); };
+
+            grabCommand.OnComlete += SwitchToNextCommand;
+            grabCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: grabCommand, preliminaryCommands: new Command[] { moveCommand }); };
+
+            UpdateUICommandsPanel();
+        }
+
+        private void SuppliesPileRaycastHitResponse(SuppliesPile suppliesPile)
+        {
+            Command moveCommand = new MoveCommand(navMeshAgent, suppliesPile.transform.position);
+            commandsList.Add(moveCommand);
+
+            if (commandsList.Count == 1) moveCommand.Execute();
+
+            Command interactCommand = new InteractCommand(suppliesPile, this);
+            commandsList.Add(interactCommand);
+
+            moveCommand.OnComlete += SwitchToNextCommand;
+            moveCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
+
+            interactCommand.OnComlete += SwitchToNextCommand;
+            interactCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
+
+            UpdateUICommandsPanel();
+        }
+
+        private void WorkbenchRaycastHitResponse(Workbench workbench)
+        {
+            Command moveCommand = new MoveCommand(navMeshAgent, workbench.transform.position);
+            commandsList.Add(moveCommand);
+
+            if (commandsList.Count == 1) moveCommand.Execute();
+
+            Command interactCommand = new InteractCommand(workbench, this);
+            commandsList.Add(interactCommand);
+
+            moveCommand.OnComlete += SwitchToNextCommand;
+            moveCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
+
+            interactCommand.OnComlete += SwitchToNextCommand;
+            interactCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
+
+            UpdateUICommandsPanel();
+        }
+
+        private void DropZoneRaycastHitResponse(DropZone dropZone)
+        {
+            Command moveCommand = new MoveCommand(navMeshAgent, dropZone.transform.position);
+            commandsList.Add(moveCommand);
+
+            if (commandsList.Count == 1) moveCommand.Execute();
+
+            Command interactCommand = new InteractCommand(dropZone, this);
+            commandsList.Add(interactCommand);
+
+            moveCommand.OnComlete += SwitchToNextCommand;
+            moveCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
+
+            interactCommand.OnComlete += SwitchToNextCommand;
+            interactCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
+
+            UpdateUICommandsPanel();
+        }
+
+
+        private void SwitchToNextCommand(Command executedCommand)
+        {
+            commandsList.Remove(executedCommand);
+
+            if (commandsList.Count > 0)
+                commandsList[0].Execute();
+
+            UpdateUICommandsPanel();
+        }
+
+        private void CancelCommandsChain(Command mainCommand, Command[] preliminaryCommands)
+        {
+            if (!commandsList.Contains(mainCommand)) return;
+
+            commandsList.Remove(mainCommand);
+
+            for (int i = 0; i < preliminaryCommands.Length; i++)
+            {
+                if (!commandsList.Contains(preliminaryCommands[i])) continue;
+
+                if (preliminaryCommands[i].CommandState == CommandState.Executing)
+                    preliminaryCommands[i].Cancel();
+
+                commandsList.Remove(preliminaryCommands[i]);
+            }
+
+            UpdateUICommandsPanel();
+        }
+
+        private void UpdateUICommandsPanel() => throw new System.NotImplementedException();
+    }
 }

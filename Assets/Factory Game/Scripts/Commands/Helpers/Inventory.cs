@@ -4,6 +4,8 @@ namespace BaseUnit.Commands
     {
         public T StoredItem { get; private set; }
 
+        public bool IsEmpty => StoredItem == null;
+
         public void Put(T item) => StoredItem = item;
 
         public void Remove() => StoredItem = default(T);

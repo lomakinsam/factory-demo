@@ -1,16 +1,17 @@
 using System;
-using BaseUnit;
 
 namespace BaseUnit.Commands
 {
-    public class InteractCommand<T> : Command
+    public class InteractCommand : Command, IDisplayable
     {
-        public override event Action OnStart;
-        public override event Action OnComlete;
-        public override event Action OnCancel;
+        public override event Action<Command> OnStart;
+        public override event Action<Command> OnComlete;
+        public override event Action<Command> OnCancel;
 
         public override CommandState CommandState => commandState;
         private CommandState commandState;
+
+        public DisplayableInfo displayableInfo => throw new NotImplementedException();
 
         private readonly IInteractable<Player> interactionTarget;
         private readonly Player interactionSender;
@@ -24,18 +25,18 @@ namespace BaseUnit.Commands
         public override void Execute()
         {
             commandState = CommandState.Executing;
-            OnStart?.Invoke();
+            OnStart?.Invoke(this);
 
             interactionTarget.Interact(interactionSender);
 
             commandState = CommandState.Pending;
-            OnComlete?.Invoke();
+            OnComlete?.Invoke(this);
         }
 
         public override void Cancel()
         {
             commandState = CommandState.Pending;
-            OnCancel?.Invoke();
+            OnCancel?.Invoke(this);
         }
     }
 }
