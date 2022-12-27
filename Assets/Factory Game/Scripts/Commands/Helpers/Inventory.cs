@@ -8,6 +8,6 @@ namespace BaseUnit.Commands
 
         public void Put(T item) => StoredItem = item;
 
-        public void Remove() => StoredItem = default(T);
+        public void Clear() => StoredItem = default(T);
     }
 }

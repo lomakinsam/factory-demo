@@ -25,7 +25,7 @@ namespace BaseUnit.Commands
             commandState = CommandState.Executing;
             OnStart?.Invoke(this);
 
-            inventory.Remove();
+            inventory.Clear();
 
             commandState = CommandState.Pending;
             OnComlete?.Invoke(this);

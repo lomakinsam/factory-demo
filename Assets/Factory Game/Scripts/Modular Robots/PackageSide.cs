@@ -5,22 +5,38 @@ namespace ModularRobot
 {
     public class PackageSide : MonoBehaviour
     {
-        private float pushForce = 1.5f;
+        private const float mass = 0.01f;
+        private const float detachForce = 0.01f;
+        private const float heightEvaluationOffset = 0.01f;
+        private const float topSidePushAngle = 45f;
+        private const float topSideForceMultiplayer = 3f;
 
-        public void DestroyDelayed(float delay) => StartCoroutine(_DestroyDelayed(delay));
-
-        public void EnablePhysics(bool pushSideways = false)
+        public void Detach(Vector3 packageCenter, float lifeTime)
         {
+            transform.parent = null;
+
             Rigidbody rb = gameObject.AddComponent<Rigidbody>();
-            rb.mass = 0.01f;
+            rb.mass = mass;
+            rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
-            Vector3 pushDirection = pushSideways ? Quaternion.Euler(90f, 0f, 0f) * transform.forward : transform.forward;
-            float forceMultiplier = pushSideways ? 3 : 1;
+            float force = detachForce;
+            Vector3 forceDir = transform.forward;
 
-            rb.AddForce(pushDirection * pushForce * forceMultiplier, ForceMode.VelocityChange);
+            if (transform.position.y > packageCenter.y + heightEvaluationOffset)
+            {
+                force *= topSideForceMultiplayer;
+                forceDir = Quaternion.Euler(topSidePushAngle, 0f, 0f) * forceDir;
+            }
+                
+            if (transform.position.y < packageCenter.y - heightEvaluationOffset)
+                force = 0f;
+
+            rb.AddForce(forceDir * force, ForceMode.Impulse);
+
+            StartCoroutine(DestroyDelayed(lifeTime));
         }
 
-        private IEnumerator _DestroyDelayed(float delay)
+        private IEnumerator DestroyDelayed(float delay)
         {
             yield return new WaitForSeconds(delay);
 

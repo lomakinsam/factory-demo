@@ -1460,6 +1460,7 @@ MonoBehaviour:
   hull: {fileID: 2694477976348263932}
   chassis: {fileID: 2367333419527662125}
   robotRigidbody: {fileID: 2662358752169785953}
+  robotCollider: {fileID: 8051722197632280256}
 --- !u!65 &8051722197632280256
 BoxCollider:
   m_ObjectHideFlags: 0

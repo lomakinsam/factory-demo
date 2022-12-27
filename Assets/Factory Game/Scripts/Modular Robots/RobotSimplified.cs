@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ModularRobot
 {
-    public class RobotSimplified : MonoBehaviour, IRobot
+    public class RobotSimplified : MonoBehaviour, IRobot, IPhysical
     {
         [SerializeField]
         private DamageableModule hull;
@@ -10,6 +10,8 @@ namespace ModularRobot
         private DamageableModule chassis;
         [SerializeField]
         private Rigidbody robotRigidbody;
+        [SerializeField]
+        private Collider robotCollider;
 
         public ModuleType[] Modules => new ModuleType[] { ModuleType.Hull, ModuleType.Chassis };
 
@@ -68,6 +70,18 @@ namespace ModularRobot
                 hull.SetDamage(damage);
             if (module == ModuleType.Chassis)
                 chassis.SetDamage(damage);
+        }
+
+        public void EnablePhysics()
+        {
+            robotRigidbody.isKinematic = false;
+            robotCollider.enabled = true;
+        }
+
+        public void DisablePhysics()
+        {
+            robotRigidbody.isKinematic = true;
+            robotCollider.enabled = false;
         }
     }
 }

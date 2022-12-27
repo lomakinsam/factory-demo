@@ -48,12 +48,28 @@ namespace BaseUnit
 
         public void SetItem(Component item)
         {
-            throw new System.NotImplementedException();
+            playerInventory.Put(item);
+
+            if (item is IPhysical physicalItem) physicalItem.DisablePhysics();
+
+            item.transform.SetParent(inventorySlot, true);
+            item.transform.localPosition = Vector3.zero;
+            item.transform.localRotation = Quaternion.identity;
         }
 
         public Component GetItem()
         {
-            throw new System.NotImplementedException();
+            if (playerInventory.IsEmpty) return null;
+
+            Component item = playerInventory.StoredItem;
+
+            playerInventory.Clear();
+
+            if (item is IPhysical physicalItem) physicalItem.DisablePhysics();
+
+            item.transform.parent = null;
+
+            return item;
         }
 
         private void ReceiveCommands()

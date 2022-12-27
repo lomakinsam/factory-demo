@@ -2,43 +2,46 @@ using UnityEngine;
 
 namespace ModularRobot
 {
-    public class Package : MonoBehaviour
+    public class Package : MonoBehaviour, IPhysical
     {
         public IRobot WrappedItem { get; private set; }
 
         public Rigidbody Rigidbody { get; private set; }
-
-        private Rigidbody wrapItemRigidbody;
-        private Collider wrapItemCollider;
-
-        private const float destructionDelay = 2.5f;
+        private const float mass = 2.5f;
 
         private PackageSide[] packageSides;
-
-        private readonly Vector3 size = new Vector3(1f, 0.65f, 1.2f);
-        private readonly Vector3 wrapOffset = new Vector3(0f, 0.2f, 0f);
+        private const float detachedSideLifeTime = 2.5f;
+        
+        private readonly Vector3 size = new (1f, 0.65f, 1.2f);
+        private readonly Vector3 wrapOffset = new (0f, 0.2f, 0f);
         private readonly float thickness = 0.01f;
 
         private void Awake() => SetName();
 
         private void OnMouseDown() => Unwrap();
 
+        public void EnablePhysics() => Rigidbody.isKinematic = false;
+
+        public void DisablePhysics() => Rigidbody.isKinematic = true;
+
         public void Wrap(IRobot wrappedItem, PackageSide packageSide)
         {
             WrappedItem = wrappedItem;
 
             transform.position = WrappedItem.gameObject.transform.position + wrapOffset;
-            wrappedItem.gameObject.transform.SetParent(transform, true);
+            WrappedItem.gameObject.transform.SetParent(transform, true);
 
-            DisableWrappedItemPhysics();
+            if (WrappedItem is RobotSimplified robotSimplified) robotSimplified.DisablePhysics();
 
-            GameObject sidesContainer = new GameObject("Package Sides");
+            GameObject sidesContainer = new("Package Sides");
             sidesContainer.transform.SetParent(transform);
             sidesContainer.transform.localPosition = Vector3.zero;
             sidesContainer.transform.localRotation = Quaternion.identity;
             sidesContainer.transform.localScale = Vector3.one;
 
             Rigidbody = gameObject.AddComponent<Rigidbody>();
+            Rigidbody.mass = mass;
+            Rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
 
             packageSides = new PackageSide[6];
 
@@ -92,40 +95,17 @@ namespace ModularRobot
         {
             if (WrappedItem == null) return;
 
+            if (WrappedItem is RobotSimplified robotSimplified) robotSimplified.EnablePhysics();
+
             WrappedItem.gameObject.transform.parent = null;
             WrappedItem = null;
 
             for (int i = 0; i < packageSides.Length; i++)
-            {
-                packageSides[i].transform.parent = null;
+                packageSides[i].Detach(transform.position, detachedSideLifeTime);
 
-                if (i == 5)
-                    packageSides[i].EnablePhysics(pushSideways: true);
-                else
-                    packageSides[i].EnablePhysics();
-
-                packageSides[i].DestroyDelayed(destructionDelay);
-            }
-
-            EnableWrappedItemPhysics();
             Destroy(gameObject);
         }
 
-        private void DisableWrappedItemPhysics()
-        {
-            wrapItemRigidbody = WrappedItem.gameObject.GetComponent<Rigidbody>();
-            wrapItemCollider = WrappedItem.gameObject.GetComponent<Collider>();
-
-            wrapItemRigidbody.isKinematic = true;
-            wrapItemCollider.enabled = false;
-        }
-
-        private void EnableWrappedItemPhysics()
-        {
-            wrapItemRigidbody.isKinematic = false;
-            wrapItemCollider.enabled = true;
-        }
-
-        private void SetName() => gameObject.name = $"Package {gameObject.GetHashCode()}";
+        private void SetName() => gameObject.name = $"Package ({gameObject.GetHashCode()})";
     }
 }

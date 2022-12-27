@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Game
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 105
+  controlID: 78
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 106
+  controlID: 79
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 107
+  controlID: 80
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -189,8 +189,8 @@ MonoBehaviour:
     y: 0
     width: 335
     height: 687
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -270,8 +270,8 @@ MonoBehaviour:
     y: 0
     width: 456
     height: 947
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -404,9 +404,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: de730100
-      m_LastClickedID: 0
-      m_ExpandedIDs: 30fbffff
+      m_SelectedIDs: 0ebdfdff
+      m_LastClickedID: -148210
+      m_ExpandedIDs: fcbbfdff247cfeff2a7cfeff44b1feff4ab1feffc848ffffce48ffff2854ffff2e54ffff80abffff30fbffff86710000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -689,9 +689,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -6.8724685, y: 3.0972347, z: -7.911828}
+    m_Target: {x: 24.160002, y: 0.3299972, z: 14.924181}
     speed: 2
-    m_Value: {x: -6.8724685, y: 3.0972347, z: -7.911828}
+    m_Value: {x: 30.480013, y: 4.4407673, z: 24.16385}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -738,13 +738,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.19136548, y: 0.6584255, z: -0.17918053, w: 0.70584506}
+    m_Target: {x: -0.15025231, y: -0.73029655, z: 0.17048295, w: -0.6445843}
     speed: 2
-    m_Value: {x: 0.19132073, y: 0.65827155, z: -0.17913863, w: 0.70568}
+    m_Value: {x: -0.15021761, y: -0.7301279, z: 0.17044356, w: -0.6444354}
   m_Size:
-    m_Target: 5.7984595
+    m_Target: 0.8556256
     speed: 2
-    m_Value: 5.7984595
+    m_Value: 30.19047
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -811,22 +811,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Factory Game/Scripts/Environment
+    - Assets/Factory Game/Scripts/Modular Robots
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Factory Game/Scripts/Environment
+  - Assets/Factory Game/Scripts/Modular Robots
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\Repos\factory-demo
   m_LockTracker:
     m_IsLocked: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 165}
-    m_SelectedIDs: 12880000
-    m_LastClickedID: 34834
-    m_ExpandedIDs: 000000007e8600008086000082860000848600008686000000ca9a3b
+    scrollPos: {x: 0, y: 181}
+    m_SelectedIDs: 2a880000
+    m_LastClickedID: 34858
+    m_ExpandedIDs: 0000000086860000888600008a8600008c8600008e860000208800002688000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -854,7 +854,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000007e86000080860000828600008486000086860000
+    m_ExpandedIDs: 0000000086860000888600008a8600008c8600008e860000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -885,15 +885,15 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c62300001a7e000052850000e0700000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: DropZone
-      m_OriginalName: DropZone
+      m_Name: Supplies (Type 1)
+      m_OriginalName: Supplies (Type 1)
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 95198
+      m_UserData: 32618
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
       m_OriginalEventType: 0
