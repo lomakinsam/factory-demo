@@ -48,6 +48,15 @@ namespace BaseUnit
 
         public void SetItem(Component item)
         {
+            if (!playerInventory.IsEmpty)
+            {
+                Component currentItem = playerInventory.StoredItem;
+                playerInventory.Clear();
+
+                currentItem.transform.parent = null;
+                if (currentItem is IPhysical _physicalItem) _physicalItem.EnablePhysics();
+            }
+
             playerInventory.Put(item);
 
             if (item is IPhysical physicalItem) physicalItem.DisablePhysics();
@@ -62,7 +71,6 @@ namespace BaseUnit
             if (playerInventory.IsEmpty) return null;
 
             Component item = playerInventory.StoredItem;
-
             playerInventory.Clear();
 
             if (item is IPhysical physicalItem) physicalItem.DisablePhysics();
@@ -117,7 +125,7 @@ namespace BaseUnit
 
             if (commandsList.Count == 1) moveCommand.Execute();
 
-            Command grabCommand = new GrabCommand<Component>(playerInventory, package);
+            Command grabCommand = new GrabCommand(this, package);
             commandsList.Add(grabCommand);
 
             moveCommand.OnComlete += SwitchToNextCommand;

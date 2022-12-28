@@ -1,8 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 using BaseUnit;
 using BaseUnit.Commands;
+using ModularRobot;
+using Resources;
 
 namespace Environment
 {
@@ -25,37 +28,161 @@ namespace Environment
         private const float weldingEndTime = weldingAnimLength * weldingEndStep - weldingStartTime;
         private const float enclosingTime = weldingAnimLength - weldingStartTime - weldingEndTime;
 
-        private void Awake() => Init();
+        private const float packageUnpackDelay = 0.5f;
 
-        private void OnMouseDown()
-        {
-            StartCoroutine(RoboticHandAnimate(4));
-        }
+        private Coroutine roboticHandAnimation;
+
+        private RobotSimplified brokenRobotItem;
+        private Supplies[] supplieItems;
+        private List<SuppliesType> requiredSupplies;
+
+        private SuppliesType RandomSuppliesType => (SuppliesType)Random.Range(0, System.Enum.GetValues(typeof(SuppliesType)).Length);
+
+        private void Awake() => Init();
 
         private void Init()
         {
             sparksEffect.Stop();
+
+            brokenRobotItem = null;
+            requiredSupplies = new();
+
+            supplieItems = new Supplies[supplieSlots.Length];
+            for (int i = 0; i < supplieItems.Length; i++)
+                supplieItems[i] = null;
         }
 
-        private IEnumerator RoboticHandAnimate(int cycles)
+        private IEnumerator RoboticHandAnimate()
         {
-            for (int i = 0; i < cycles; i++)
-            {
-                roboticHandAnimator.SetTrigger(weldingAnimTrigger_ID);
+            roboticHandAnimator.SetTrigger(weldingAnimTrigger_ID);
 
-                yield return new WaitForSeconds(weldingStartTime);
-                sparksEffect.Play();
+            yield return new WaitForSeconds(weldingStartTime);
+            sparksEffect.Play();
 
-                yield return new WaitForSeconds(weldingEndTime);
-                sparksEffect.Stop();
+            yield return new WaitForSeconds(weldingEndTime);
+            sparksEffect.Stop();
 
-                yield return new WaitForSeconds(enclosingTime);
-            }
+            yield return new WaitForSeconds(enclosingTime);
+
+            roboticHandAnimation = null;
         }
 
         public void Interact(Player interactionSender)
         {
-            throw new System.NotImplementedException();
+            if (brokenRobotItem != null && brokenRobotItem.DamageStatus == null)
+            {
+                brokenRobotItem.gameObject.transform.parent = null;
+                interactionSender.SetItem(brokenRobotItem);
+                return;
+            }
+
+            Component receivedItem = interactionSender.GetItem();
+
+            if (receivedItem == null) return;
+
+            if (receivedItem is Package package)
+            {
+                ReceivePackage(package);
+                return;
+            }
+
+            if (receivedItem is Supplies supplies)
+            {
+                ReceiveSupplies(supplies);
+                return;
+            }
+        }
+
+        private void ReceiveSupplies(Supplies supplies)
+        {
+            if (!(requiredSupplies.Count > 0 && requiredSupplies.Contains(supplies.SuppliesType))) return;
+
+            for (int i = 0; i < supplieSlots.Length; i++)
+            {
+                if (supplieSlots[i].childCount == 0 && supplieItems[i] == null)
+                {
+                    supplies.transform.SetParent(supplieSlots[i], true);
+                    supplies.transform.localPosition = Vector3.zero;
+                    supplies.transform.localRotation = Quaternion.identity;
+
+                    supplieItems[i] = supplies;
+                    requiredSupplies.Remove(supplies.SuppliesType);
+
+                    break;
+                }
+            }
+
+            if (requiredSupplies.Count == 0)
+                RepairBrokenRobot();
+        }
+
+        private void ReceivePackage(Package package)
+        {
+            if (brokenRobotItem != null || brokenRobotSlot.childCount > 0) return;
+
+            StartCoroutine(_ReceivePackage(package));
+        }
+
+        private IEnumerator _ReceivePackage(Package package)
+        {
+            package.transform.SetParent(brokenRobotSlot, true);
+            package.transform.localPosition = Vector3.zero;
+            package.transform.localRotation = Quaternion.identity;
+
+            yield return new WaitForSeconds(packageUnpackDelay);
+
+            brokenRobotItem = package.Unwrap() as RobotSimplified;
+            brokenRobotItem.gameObject.transform.SetParent(brokenRobotSlot, true);
+            brokenRobotItem.gameObject.transform.localPosition = Vector3.zero;
+            brokenRobotItem.gameObject.transform.localRotation = Quaternion.identity;
+
+            GenerateRequiredSupplies();
+        }
+
+        private void GenerateRequiredSupplies()
+        {
+            if (requiredSupplies.Count > 0) return;
+
+            if (brokenRobotItem.GetDamageStatus(ModuleType.Hull) != null)
+                requiredSupplies.Add(RandomSuppliesType);
+            if (brokenRobotItem.GetDamageStatus(ModuleType.Chassis) != null)
+                requiredSupplies.Add(RandomSuppliesType);
+        }
+
+        private void RepairBrokenRobot()
+        {
+            if (brokenRobotItem != null)
+                StartCoroutine(_RepairBrokenRobot());
+        }
+
+        private IEnumerator _RepairBrokenRobot()
+        {
+            while (brokenRobotItem != null && brokenRobotItem.DamageStatus != null)
+            {
+                roboticHandAnimation = StartCoroutine(RoboticHandAnimate());
+
+                yield return new WaitForSeconds(weldingAnimLength * weldingEndStep);
+
+                DamageType? repairedModuleDamageStatus = brokenRobotItem.Repair();
+                if (repairedModuleDamageStatus == null) RemoveSupplie();
+
+                yield return new WaitWhile(() => roboticHandAnimation != null);
+            }
+        }
+
+        private void RemoveSupplie()
+        {
+            for (int i = 0; i < supplieItems.Length; i++)
+            {
+                if (supplieItems[i] != null)
+                {
+                    supplieItems[i].transform.parent = null;
+                    supplieItems[i].gameObject.SetActive(false);
+                    supplieItems[i] = null;
+
+                    return;
+                }
+            }
         }
     }
 }

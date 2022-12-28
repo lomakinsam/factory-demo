@@ -64,6 +64,20 @@ namespace ModularRobot
             }
         }
 
+        public DamageType? Repair()
+        {
+            if (hull.DamageStatus != null && chassis.DamageStatus != null)
+                return (int)hull.DamageStatus >= (int)chassis.DamageStatus ? hull.Repair() : chassis.Repair();
+
+            if (hull.DamageStatus != null)
+                return hull.Repair();
+
+            if (chassis.DamageStatus != null)
+                return chassis.Repair();
+
+            return null;
+        }
+
         public void SetDamage(ModuleType module, DamageType damage)
         {
             if (module == ModuleType.Hull)

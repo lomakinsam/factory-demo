@@ -13,8 +13,8 @@ namespace Resources
 
         public void Interact(Player interactionSender)
         {
-            // TO DO complete interaction
-            //interactionSender.GrabItem(GetSupplies());
+            Supplies supplies = GetSupplies();
+            interactionSender.SetItem(supplies);
         }
 
         private Supplies GetSupplies()

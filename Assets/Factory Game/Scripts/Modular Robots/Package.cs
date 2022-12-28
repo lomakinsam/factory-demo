@@ -18,14 +18,14 @@ namespace ModularRobot
 
         private void Awake() => SetName();
 
-        private void OnMouseDown() => Unwrap();
-
         public void EnablePhysics() => Rigidbody.isKinematic = false;
 
         public void DisablePhysics() => Rigidbody.isKinematic = true;
 
         public void Wrap(IRobot wrappedItem, PackageSide packageSide)
         {
+            if (WrappedItem != null) return;
+
             WrappedItem = wrappedItem;
 
             transform.position = WrappedItem.gameObject.transform.position + wrapOffset;
@@ -91,11 +91,11 @@ namespace ModularRobot
             }
         }
 
-        public void Unwrap()
+        public IRobot Unwrap()
         {
-            if (WrappedItem == null) return;
+            if (WrappedItem == null) return null;
 
-            if (WrappedItem is RobotSimplified robotSimplified) robotSimplified.EnablePhysics();
+            IRobot unwrappedItem = WrappedItem;
 
             WrappedItem.gameObject.transform.parent = null;
             WrappedItem = null;
@@ -104,6 +104,8 @@ namespace ModularRobot
                 packageSides[i].Detach(transform.position, detachedSideLifeTime);
 
             Destroy(gameObject);
+
+            return unwrappedItem;
         }
 
         private void SetName() => gameObject.name = $"Package ({gameObject.GetHashCode()})";

@@ -1,8 +1,9 @@
 using System;
+using UnityEngine;
 
 namespace BaseUnit.Commands
 {
-    public class GrabCommand<T> : Command, IDisplayable
+    public class GrabCommand : Command, IDisplayable
     {
         public override event Action<Command> OnStart;
         public override event Action<Command> OnComlete;
@@ -13,12 +14,12 @@ namespace BaseUnit.Commands
 
         public DisplayableInfo displayableInfo => throw new NotImplementedException();
 
-        private Inventory<T> inventory;
-        private readonly T item;
+        private readonly Player player;
+        private readonly Component item;
 
-        public GrabCommand(Inventory<T> inventory, T item)
+        public GrabCommand(Player player, Component item)
         {
-            this.inventory = inventory;
+            this.player = player;
             this.item = item;
         }
 
@@ -27,7 +28,7 @@ namespace BaseUnit.Commands
             commandState = CommandState.Executing;
             OnStart?.Invoke(this);
 
-            inventory.Put(item);
+            player.SetItem(item);
 
             commandState = CommandState.Pending;
             OnComlete?.Invoke(this);
