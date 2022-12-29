@@ -17,6 +17,23 @@ namespace BaseUnit
 
         private Inventory<Component> playerInventory;
 
+        public bool IsCarryingRepairedRobot
+        {
+            get
+            {
+                if (playerInventory.StoredItem == null) return false;
+
+                if (playerInventory.StoredItem is RobotSimplified robotSimplified)
+                {
+                    if (robotSimplified.DamageStatus == null) return true;
+                    else return false;
+                }
+                else return false;
+            }
+        }
+
+        //public Type InventoryItemType => playerInventory.StoredItem == null ? null : playerInventory.StoredItem.GetType();
+
         private int displayableCommandsCount
         {
             get
@@ -72,8 +89,6 @@ namespace BaseUnit
 
             Component item = playerInventory.StoredItem;
             playerInventory.Clear();
-
-            if (item is IPhysical physicalItem) physicalItem.DisablePhysics();
 
             item.transform.parent = null;
 
