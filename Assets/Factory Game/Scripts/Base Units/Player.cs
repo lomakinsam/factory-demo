@@ -32,8 +32,6 @@ namespace BaseUnit
             }
         }
 
-        //public Type InventoryItemType => playerInventory.StoredItem == null ? null : playerInventory.StoredItem.GetType();
-
         private int displayableCommandsCount
         {
             get

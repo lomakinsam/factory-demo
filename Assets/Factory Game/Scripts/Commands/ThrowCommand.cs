@@ -2,7 +2,7 @@ using System;
 
 namespace BaseUnit.Commands
 {
-    public class ThrowCommand<T> : Command, IDisplayable
+    public class ThrowCommand<T> : Command
     {
         public override event Action<Command> OnStart;
         public override event Action<Command> OnComlete;
