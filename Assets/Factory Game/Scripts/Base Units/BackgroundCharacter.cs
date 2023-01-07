@@ -13,7 +13,7 @@ namespace BaseUnit
 
         private float closeAnimDuration = 1f;
         private float openAnimDuration = 3f;
-        private float activationDelay = 5f;
+        private float activationDelay = 45f;
         private float idleToMoveTransitionDuration = 0.5f;
 
         private int targetWaypointIndex;
