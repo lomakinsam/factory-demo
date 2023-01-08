@@ -89,12 +89,14 @@ namespace ModularRobot
         public void EnablePhysics()
         {
             robotRigidbody.isKinematic = false;
+            robotRigidbody.detectCollisions = true;
             robotCollider.enabled = true;
         }
 
         public void DisablePhysics()
         {
             robotRigidbody.isKinematic = true;
+            robotRigidbody.detectCollisions = false;
             robotCollider.enabled = false;
         }
     }

@@ -5,7 +5,7 @@ namespace BaseUnit.Commands
     public abstract class Command
     {
         public abstract event Action<Command> OnStart;
-        public abstract event Action<Command> OnComlete;
+        public abstract event Action<Command> OnComplete;
         public abstract event Action<Command> OnCancel;
 
         public abstract CommandState CommandState { get; }

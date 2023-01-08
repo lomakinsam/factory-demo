@@ -6,7 +6,7 @@ namespace BaseUnit.Commands
     public class GrabCommand : Command, IDisplayable
     {
         public override event Action<Command> OnStart;
-        public override event Action<Command> OnComlete;
+        public override event Action<Command> OnComplete;
         public override event Action<Command> OnCancel;
 
         public override CommandState CommandState => commandState;
@@ -31,7 +31,7 @@ namespace BaseUnit.Commands
             player.SetItem(item);
 
             commandState = CommandState.Pending;
-            OnComlete?.Invoke(this);
+            OnComplete?.Invoke(this);
         }
 
         public override void Cancel()

@@ -5,7 +5,7 @@ namespace BaseUnit.Commands
     public class ThrowCommand<T> : Command
     {
         public override event Action<Command> OnStart;
-        public override event Action<Command> OnComlete;
+        public override event Action<Command> OnComplete;
         public override event Action<Command> OnCancel;
 
         public override CommandState CommandState => commandState;
@@ -28,7 +28,7 @@ namespace BaseUnit.Commands
             inventory.Clear();
 
             commandState = CommandState.Pending;
-            OnComlete?.Invoke(this);
+            OnComplete?.Invoke(this);
         }
 
         public override void Cancel()

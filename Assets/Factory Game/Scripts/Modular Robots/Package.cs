@@ -18,9 +18,17 @@ namespace ModularRobot
 
         private void Awake() => SetName();
 
-        public void EnablePhysics() => Rigidbody.isKinematic = false;
+        public void EnablePhysics()
+        {
+            Rigidbody.isKinematic = false;
+            Rigidbody.detectCollisions = true;
+        }
 
-        public void DisablePhysics() => Rigidbody.isKinematic = true;
+        public void DisablePhysics()
+        {
+            Rigidbody.isKinematic = true;
+            Rigidbody.detectCollisions = false;
+        }
 
         public void Wrap(IRobot wrappedItem, PackageSide packageSide)
         {

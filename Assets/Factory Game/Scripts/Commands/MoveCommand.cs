@@ -8,7 +8,7 @@ namespace BaseUnit.Commands
     public class MoveCommand : Command
     {
         public override event Action<Command> OnStart;
-        public override event Action<Command> OnComlete;
+        public override event Action<Command> OnComplete;
         public override event Action<Command> OnCancel;
 
         public override CommandState CommandState => commandState;
@@ -41,11 +41,13 @@ namespace BaseUnit.Commands
 
         private IEnumerator CompleteExecution()
         {
+            yield return null;
+
             float minDistance = 0.1f;
             yield return new WaitUntil(() => agent.remainingDistance < minDistance);
 
             commandState = CommandState.Pending;
-            OnComlete?.Invoke(this);
+            OnComplete?.Invoke(this);
         }
 
         public override void Cancel()

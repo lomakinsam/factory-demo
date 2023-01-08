@@ -141,10 +141,10 @@ namespace BaseUnit
             Command grabCommand = new GrabCommand(this, package);
             commandsList.Add(grabCommand);
 
-            moveCommand.OnComlete += SwitchToNextCommand;
+            moveCommand.OnComplete += SwitchToNextCommand;
             moveCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: grabCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
-            grabCommand.OnComlete += SwitchToNextCommand;
+            grabCommand.OnComplete += SwitchToNextCommand;
             grabCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: grabCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
             UpdateUICommandsPanel();
@@ -160,10 +160,10 @@ namespace BaseUnit
             Command interactCommand = new InteractCommand(suppliesPile, this);
             commandsList.Add(interactCommand);
 
-            moveCommand.OnComlete += SwitchToNextCommand;
+            moveCommand.OnComplete += SwitchToNextCommand;
             moveCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
-            interactCommand.OnComlete += SwitchToNextCommand;
+            interactCommand.OnComplete += SwitchToNextCommand;
             interactCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
             UpdateUICommandsPanel();
@@ -179,10 +179,10 @@ namespace BaseUnit
             Command interactCommand = new InteractCommand(workbench, this);
             commandsList.Add(interactCommand);
 
-            moveCommand.OnComlete += SwitchToNextCommand;
+            moveCommand.OnComplete += SwitchToNextCommand;
             moveCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
-            interactCommand.OnComlete += SwitchToNextCommand;
+            interactCommand.OnComplete += SwitchToNextCommand;
             interactCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
             UpdateUICommandsPanel();
@@ -198,10 +198,10 @@ namespace BaseUnit
             Command interactCommand = new InteractCommand(dropZone, this);
             commandsList.Add(interactCommand);
 
-            moveCommand.OnComlete += SwitchToNextCommand;
+            moveCommand.OnComplete += SwitchToNextCommand;
             moveCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
-            interactCommand.OnComlete += SwitchToNextCommand;
+            interactCommand.OnComplete += SwitchToNextCommand;
             interactCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
             UpdateUICommandsPanel();
@@ -237,6 +237,23 @@ namespace BaseUnit
             UpdateUICommandsPanel();
         }
 
-        private void UpdateUICommandsPanel() => throw new System.NotImplementedException();
+        private void UpdateUICommandsPanel() => DebugCommandList();
+
+        private void DebugCommandList()
+        {
+            string debugMassage = "Commands: ";
+
+            foreach (var command in commandsList)
+            {
+                debugMassage += $"{command}";
+
+                if (command is IDisplayable)
+                    debugMassage += " (I) -> ";
+                else
+                    debugMassage += " -> ";
+            }
+
+            Debug.Log(debugMassage);
+        }
     }
 }

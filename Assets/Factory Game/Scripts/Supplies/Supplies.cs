@@ -16,12 +16,14 @@ namespace Resources
         public void EnablePhysics()
         {
             suppliesRigidbody.isKinematic = false;
+            suppliesRigidbody.detectCollisions = true;
             suppliesCollider.enabled = true;
         }
 
         public void DisablePhysics()
         {
             suppliesRigidbody.isKinematic = true;
+            suppliesRigidbody.detectCollisions = false;
             suppliesCollider.enabled = false;
         }
     }
