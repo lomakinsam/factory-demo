@@ -82,20 +82,24 @@ namespace Environment
 
             if (receivedItem is Package package)
             {
-                ReceivePackage(package);
+                ReceivePackage(package, interactionSender);
                 return;
             }
 
             if (receivedItem is Supplies supplies)
             {
-                ReceiveSupplies(supplies);
+                ReceiveSupplies(supplies, interactionSender);
                 return;
             }
         }
 
-        private void ReceiveSupplies(Supplies supplies)
+        private void ReceiveSupplies(Supplies supplies, Player interactionSender)
         {
-            if (!(requiredSupplies.Count > 0 && requiredSupplies.Contains(supplies.SuppliesType))) return;
+            if (!(requiredSupplies.Count > 0 && requiredSupplies.Contains(supplies.SuppliesType)))
+            {
+                interactionSender.SetItem(supplies);
+                return;
+            }
 
             for (int i = 0; i < supplieSlots.Length; i++)
             {
@@ -116,9 +120,13 @@ namespace Environment
                 RepairBrokenRobot();
         }
 
-        private void ReceivePackage(Package package)
+        private void ReceivePackage(Package package, Player interactionSender)
         {
-            if (brokenRobotItem != null || brokenRobotSlot.childCount > 0) return;
+            if (brokenRobotItem != null || brokenRobotSlot.childCount > 0)
+            {
+                interactionSender.SetItem(package);
+                return;
+            }
 
             StartCoroutine(_ReceivePackage(package));
         }

@@ -10,8 +10,6 @@ namespace Environment
     {
         private const float destructionDelay = 0.5f;
 
-        private void OnMouseDown() => Debug.Log("+");
-
         public void Interact(Player interactionSender)
         {
             if (interactionSender.IsCarryingRepairedRobot)
