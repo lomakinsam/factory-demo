@@ -147,6 +147,13 @@ namespace BaseUnit
 
         private void GrabbableObjectRaycastHitResponse(Component grabbableObject)
         {
+            // Preventing repetitive actions with the same object
+            foreach (var command in commandsList)
+            {
+                if (command is GrabCommand grabAction && grabAction.Target == grabbableObject)
+                    return;
+            }
+
             Command moveCommand = new MoveCommand(navMeshAgent, grabbableObject.transform.position);
             commandsList.Add(moveCommand);
 

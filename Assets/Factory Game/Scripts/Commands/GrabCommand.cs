@@ -13,6 +13,7 @@ namespace BaseUnit.Commands
         private CommandState commandState;
 
         public DisplayableInfo displayableInfo => throw new NotImplementedException();
+        public Component Target => item;
 
         private readonly Player player;
         private readonly Component item;
