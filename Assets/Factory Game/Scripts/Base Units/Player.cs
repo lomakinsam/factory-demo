@@ -104,7 +104,7 @@ namespace BaseUnit
                 Package package = hit.transform.GetComponent<Package>();
                 if (package != null)
                 {
-                    PackageRaycastHitResponse(package);
+                    GrabbableObjectRaycastHitResponse(package);
                     return;
                 }
 
@@ -128,17 +128,31 @@ namespace BaseUnit
                     DropZoneRaycastHitResponse(dropZone);
                     return;
                 }
+
+                RobotSimplified robot = hit.transform.GetComponent<RobotSimplified>();
+                if (robot != null)
+                {
+                    GrabbableObjectRaycastHitResponse(robot);
+                    return;
+                }
+
+                Supplies supplies = hit.transform.GetComponent<Supplies>();
+                if (supplies != null)
+                {
+                    GrabbableObjectRaycastHitResponse(supplies);
+                    return;
+                }
             }
         }
 
-        private void PackageRaycastHitResponse(Package package)
+        private void GrabbableObjectRaycastHitResponse(Component grabbableObject)
         {
-            Command moveCommand = new MoveCommand(navMeshAgent, package.transform.position);
+            Command moveCommand = new MoveCommand(navMeshAgent, grabbableObject.transform.position);
             commandsList.Add(moveCommand);
 
             if (commandsList.Count == 1) moveCommand.Execute();
 
-            Command grabCommand = new GrabCommand(this, package);
+            Command grabCommand = new GrabCommand(this, grabbableObject);
             commandsList.Add(grabCommand);
 
             moveCommand.OnComplete += SwitchToNextCommand;
