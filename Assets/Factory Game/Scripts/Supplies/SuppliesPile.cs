@@ -25,7 +25,10 @@ namespace Resources
             foreach (var item in suppliesPool)
             {
                 if (!item.gameObject.activeInHierarchy)
+                {
+                    item.gameObject.SetActive(true);
                     return item;
+                }
             }
 
             Supplies supplie = Instantiate(suppliesInstance);
