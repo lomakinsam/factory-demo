@@ -141,8 +141,6 @@ namespace Environment
 
             brokenRobotItem = package.Unwrap() as RobotSimplified;
             brokenRobotItem.gameObject.transform.SetParent(brokenRobotSlot, true);
-            brokenRobotItem.gameObject.transform.localPosition = Vector3.zero;
-            brokenRobotItem.gameObject.transform.localRotation = Quaternion.identity;
 
             GenerateRequiredSupplies();
         }
