@@ -75,7 +75,7 @@ namespace BaseUnit.Commands
         private CommandVisualisationData CastToCustomData(CommandVisualisationData data)
         {
             if ((data.commandTarget == CommandTarget.SuppliesPile || data.commandTarget == CommandTarget.Supplies) && data is not CommandVisualisationData_SuppliesAsTarget)
-                data = new CommandVisualisationData_SuppliesAsTarget(data.commandTarget, data.actionIcon, SuppliesType.Pink);
+                data = new CommandVisualisationData_SuppliesAsTarget(data.commandTarget, data.actionIcon, SupplieType.Pink);
             else if ((data.commandTarget != CommandTarget.SuppliesPile || data.commandTarget != CommandTarget.Supplies) && data is CommandVisualisationData_SuppliesAsTarget)
                 data = new CommandVisualisationData(data.commandTarget, data.actionIcon);
 
@@ -115,9 +115,9 @@ namespace BaseUnit.Commands
     [Serializable]
     public class CommandVisualisationData_SuppliesAsTarget : CommandVisualisationData
     {
-        public SuppliesType suppliesType;
+        public SupplieType suppliesType;
 
-        public CommandVisualisationData_SuppliesAsTarget(CommandTarget commandTarget, Sprite actionIcon, SuppliesType suppliesType) : base(commandTarget, actionIcon)
+        public CommandVisualisationData_SuppliesAsTarget(CommandTarget commandTarget, Sprite actionIcon, SupplieType suppliesType) : base(commandTarget, actionIcon)
         {
             this.suppliesType = suppliesType;
         }
@@ -137,9 +137,9 @@ namespace BaseUnit.Commands
 
     public class CommandVisualisationDataRequest_SuppliesAsTarget : CommandVisualisationDataRequest
     {
-        public SuppliesType suppliesType;
+        public SupplieType suppliesType;
 
-        public CommandVisualisationDataRequest_SuppliesAsTarget(CommandType commandType, CommandTarget commandTarget, SuppliesType suppliesType) : base(commandType, commandTarget)
+        public CommandVisualisationDataRequest_SuppliesAsTarget(CommandType commandType, CommandTarget commandTarget, SupplieType suppliesType) : base(commandType, commandTarget)
         {
             this.suppliesType = suppliesType;
         }

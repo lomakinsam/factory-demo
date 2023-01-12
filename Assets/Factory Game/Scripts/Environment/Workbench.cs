@@ -34,9 +34,9 @@ namespace Environment
 
         private RobotSimplified brokenRobotItem;
         private Supplies[] supplieItems;
-        private List<SuppliesType> requiredSupplies;
+        private List<SupplieType> requiredSupplies;
 
-        private SuppliesType RandomSuppliesType => (SuppliesType)Random.Range(0, System.Enum.GetValues(typeof(SuppliesType)).Length);
+        private SupplieType RandomSuppliesType => (SupplieType)Random.Range(0, System.Enum.GetValues(typeof(SupplieType)).Length);
 
         private void Awake() => Init();
 
