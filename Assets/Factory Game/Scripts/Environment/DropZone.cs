@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using BaseUnit;
 using BaseUnit.Commands;
@@ -8,6 +9,8 @@ namespace Environment
 {
     public class DropZone : MonoBehaviour, IInteractable<Player>
     {
+        public event Action OnRobotDelivered;
+
         private const float destructionDelay = 0.5f;
 
         public void Interact(Player interactionSender)
@@ -17,6 +20,7 @@ namespace Environment
                 RobotSimplified robot = interactionSender.GetItem() as RobotSimplified;
                 robot.EnablePhysics();
                 StartCoroutine(DestroyDelayed(robot.gameObject));
+                OnRobotDelivered?.Invoke();
             }
         }
 
