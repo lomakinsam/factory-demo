@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GradientFill
+  m_Name: GradientFill (Workbench 3)
   m_Shader: {fileID: -6465566751694194690, guid: f6c8f89157747934095bfeee952adba4,
     type: 3}
   m_ValidKeywords: []
@@ -42,7 +42,7 @@ Material:
     - _QueueOffset: 0
     - _Smooth_Area_Size: 0.01
     - _Smooth_Edge: 1
-    - _Step: 0.55
+    - _Step: 1
     - _Test: 0
     m_Colors:
     - Color_653b09d5e87a4d859b211ae06b30f749: {r: 38.149025, g: 35.35276, b: 0.7989325,

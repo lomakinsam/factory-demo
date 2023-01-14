@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   supplieData:
   - supplieType: 0
-    icon: {fileID: 0}
+    material: {fileID: 2100000, guid: 007f6bf9b175bf2498059535817f7fce, type: 2}
   - supplieType: 1
-    icon: {fileID: 0}
+    material: {fileID: 2100000, guid: 044f3b83452a1514abcc9447bc88467b, type: 2}
   - supplieType: 2
-    icon: {fileID: 0}
+    material: {fileID: 2100000, guid: 717be530dca653641be606817c0a166d, type: 2}

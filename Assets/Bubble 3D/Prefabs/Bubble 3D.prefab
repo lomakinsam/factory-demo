@@ -148,6 +148,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3876586619048783509}
+  - component: {fileID: 1930543219458027606}
+  - component: {fileID: 8227156250274018795}
   m_Layer: 0
   m_Name: Bubble 3D
   m_TagString: Untagged
@@ -164,7 +166,7 @@ Transform:
   m_GameObject: {fileID: 3876586619048783508}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
+  m_LocalScale: {x: 1.7000002, y: 1.7000002, z: 1.6999999}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5454075891072307842}
@@ -172,6 +174,45 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1930543219458027606
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3876586619048783508}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e0a6ae2bf4f7a5b44bcfe71d98784666, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &8227156250274018795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3876586619048783508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68526c80fb2f79c4c9644c7d586a2dd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fillMaterial: {fileID: 0}
+  bubbleAnimator: {fileID: 1930543219458027606}
+  bubbleIcons:
+  - {fileID: 1297112630145292043}
+  - {fileID: 7475928769147769253}
+  suppliesVisualisationInfo: {fileID: 11400000, guid: 649eef724d431d0418ea0d3f084ae5ef,
+    type: 2}
 --- !u!1 &7475928769147769253
 GameObject:
   m_ObjectHideFlags: 0

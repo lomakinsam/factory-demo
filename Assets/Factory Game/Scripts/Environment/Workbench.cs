@@ -14,6 +14,7 @@ namespace Environment
         [Header("General Setup")]
         [SerializeField] private Transform[] supplieSlots;
         [SerializeField] private Transform brokenRobotSlot;
+        [SerializeField] private Bubble bubble;
 
         [Header("Robotic Hand Setup")]
         [SerializeField] private Animator roboticHandAnimator;
@@ -109,6 +110,9 @@ namespace Environment
                     supplies.transform.localPosition = Vector3.zero;
                     supplies.transform.localRotation = Quaternion.identity;
 
+                    float bubbleFillAmount = ((1 - bubble.FillStep) / requiredSupplies.Count) + 0.1f;
+                    bubble.Fill(bubbleFillAmount);
+
                     supplieItems[i] = supplies;
                     requiredSupplies.Remove(supplies.SuppliesType);
 
@@ -149,10 +153,23 @@ namespace Environment
         {
             if (requiredSupplies.Count > 0) return;
 
+            List<SupplieType> generatedSupplies = new();
+
             if (brokenRobotItem.GetDamageStatus(ModuleType.Hull) != null)
-                requiredSupplies.Add(RandomSuppliesType);
+            {
+                SupplieType supplieType = RandomSuppliesType;
+                requiredSupplies.Add(supplieType);
+                generatedSupplies.Add(supplieType);
+            }
+                
             if (brokenRobotItem.GetDamageStatus(ModuleType.Chassis) != null)
-                requiredSupplies.Add(RandomSuppliesType);
+            {
+                SupplieType supplieType = RandomSuppliesType;
+                requiredSupplies.Add(supplieType);
+                generatedSupplies.Add(supplieType);
+            }
+
+            bubble.Show(generatedSupplies.ToArray());
         }
 
         private void RepairBrokenRobot()

@@ -10,11 +10,11 @@ namespace Resources
         [SerializeField]
         private List<SupplieVisualisationData> supplieData;
 
-        private Dictionary<SupplieType, Sprite> sprites = new();
+        private Dictionary<SupplieType, Material> sprites = new();
 
-        public Sprite SupplieIcon(SupplieType supplieType)
+        public Material GetMaterial(SupplieType supplieType)
         {
-            sprites.TryGetValue(supplieType, out Sprite value);
+            sprites.TryGetValue(supplieType, out Material value);
             return value;
         }
 
@@ -27,7 +27,7 @@ namespace Resources
             foreach (var item in supplieData)
             {
                 if (!sprites.ContainsKey(item.supplieType))
-                    sprites.Add(item.supplieType, item.icon);
+                    sprites.Add(item.supplieType, item.material);
             }
         }
     }
@@ -36,12 +36,12 @@ namespace Resources
     public class SupplieVisualisationData
     {
         public SupplieType supplieType;
-        public Sprite icon;
+        public Material material;
 
-        public SupplieVisualisationData(SupplieType supplieType, Sprite icon)
+        public SupplieVisualisationData(SupplieType supplieType, Material material)
         {
             this.supplieType = supplieType;
-            this.icon = icon;
+            this.material = material;
         }
     }
 }
