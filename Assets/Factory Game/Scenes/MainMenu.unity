@@ -740,6 +740,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 732320537}
+  - component: {fileID: 732320538}
   m_Layer: 0
   m_Name: '[CACHED DATA]'
   m_TagString: Untagged
@@ -762,6 +763,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &732320538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 732320536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 493b15c2265b36a45ad67549f72a0562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &863944797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,8 +1111,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1323387765}
+  - component: {fileID: 1323387766}
   m_Layer: 0
-  m_Name: UI Actions
+  m_Name: UI Handler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1120,6 +1134,25 @@ Transform:
   m_Father: {fileID: 2111569178}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1323387766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323387764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e05b3f7999026334d8f91528de6afece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startButton: {fileID: 1575667805}
+  switchDifficultyButton: {fileID: 2037063888}
+  switchDifficultyButtonText: {fileID: 1607630184}
+  exitButton: {fileID: 1596001269}
+  playerResultsContainer: {fileID: 1531601323}
+  playerResultPrefab: {fileID: 215276553957150964, guid: fbd780db7185e234a8410d24bea84e07,
+    type: 3}
 --- !u!1 &1351828040
 GameObject:
   m_ObjectHideFlags: 0
