@@ -80,6 +80,8 @@ public class UIHandlerMenu : MonoBehaviour
 
         for (int i = 0; i < playerResults.Length; i++)
         {
+            if (playerResults[i].score == 0 || playerResults[i].timeInSeconds == 0) continue;
+
             ScoreResult playerResult = Instantiate(playerResultPrefab, playerResultsContainer);
             playerResult.SetResult(playerResults[i].score, playerResults[i].timeInSeconds);
         }

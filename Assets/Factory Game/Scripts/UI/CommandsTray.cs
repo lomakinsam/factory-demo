@@ -61,7 +61,7 @@ public class CommandsTray : MonoBehaviour
     {
         commandIcon.SetDefaultVisual();
         commandIcon.gameObject.SetActive(false);
-        commandIcon.transform.SetAsLastSibling();
+        //commandIcon.transform.SetAsLastSibling();
     }
 
     private CommandIcon GetCommandIcon()
@@ -70,6 +70,7 @@ public class CommandsTray : MonoBehaviour
         {
             if (!item.gameObject.activeSelf)
             {
+                item.transform.SetAsLastSibling();
                 item.gameObject.SetActive(true);
                 return item;
             }

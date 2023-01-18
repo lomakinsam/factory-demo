@@ -15,19 +15,19 @@ MonoBehaviour:
   settingsConfig:
   - difficulty: 0
     gameplaySettings:
-      timeLimit: 75
+      timeLimit: 150
       requiredRepairs: 5
       spawnLimit: 5
-      spawnDelayRange: {x: 5, y: 8}
+      spawnDelayRange: {x: 10, y: 15}
   - difficulty: 1
     gameplaySettings:
-      timeLimit: 90
+      timeLimit: 150
       requiredRepairs: 8
       spawnLimit: 8
-      spawnDelayRange: {x: 4, y: 7}
+      spawnDelayRange: {x: 10, y: 15}
   - difficulty: 2
     gameplaySettings:
-      timeLimit: 120
+      timeLimit: 240
       requiredRepairs: 12
       spawnLimit: 12
-      spawnDelayRange: {x: 3, y: 5}
+      spawnDelayRange: {x: 10, y: 15}

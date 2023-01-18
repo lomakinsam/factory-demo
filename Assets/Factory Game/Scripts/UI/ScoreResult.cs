@@ -8,14 +8,6 @@ public class ScoreResult : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI timeOutputField;
 
-    private void Awake() => Init();
-
-    private void Init()
-    {
-        scoreOutputField.text = "";
-        timeOutputField.text = "";
-    }
-
     public void SetResult(int score, int timeInSeconds)
     {
         scoreOutputField.text = $"Repairs ~ {score}";

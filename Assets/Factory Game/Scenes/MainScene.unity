@@ -3819,7 +3819,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &201799148
 Transform:
   m_ObjectHideFlags: 0
@@ -21128,7 +21128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   winPanel: {fileID: 1478175086}
   losePanel: {fileID: 1177571228}
-  commandsTray: {fileID: 0}
+  commandsTray: {fileID: 1586682394}
 --- !u!65 &990241997
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43814,6 +43814,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 556620125072113915, guid: 52f1e261a8a10bd4a8bf7afe63b6ddf2,
+        type: 3}
+      propertyPath: m_Acceleration
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 556620125072113915, guid: 52f1e261a8a10bd4a8bf7afe63b6ddf2,
+        type: 3}
+      propertyPath: m_AngularSpeed
+      value: 999
       objectReference: {fileID: 0}
     - target: {fileID: 556620125072113917, guid: 52f1e261a8a10bd4a8bf7afe63b6ddf2,
         type: 3}
