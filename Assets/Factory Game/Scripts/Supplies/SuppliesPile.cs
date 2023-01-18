@@ -11,6 +11,8 @@ namespace Resources
 
         private List<Supplies> suppliesPool;
 
+        public SupplieType SupplieType => suppliesInstance.SuppliesType;
+
         public void Interact(Player interactionSender)
         {
             Supplies supplies = GetSupplies();

@@ -45,5 +45,5 @@ public class GameplaySettings
     public int timeLimit;
     public int requiredRepairs;
     public int spawnLimit;
-    public Vector2 spawnIntervalRange;
+    public Vector2 spawnDelayRange;
 }

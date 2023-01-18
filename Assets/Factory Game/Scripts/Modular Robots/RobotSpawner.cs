@@ -10,8 +10,9 @@ namespace ModularRobot
         [SerializeField]
         private float initialDelay = 2f;
         [SerializeField]
-        [Range(1.0f, 10.0f)]
-        private float spawnDelay;
+        private Vector2 spawnDelayRange = new Vector2(1f, 10f);
+        [SerializeField]
+        private int spawnLimit = 6;
         [SerializeField]
         private Vector2 forwardPushLimits = new Vector2(50f, 75f);
         [SerializeField]
@@ -28,11 +29,19 @@ namespace ModularRobot
             //StartCoroutine(SpawnRobotDefault());   
         }
 
+        public void Configure(Vector2 spawnDelayRange, int spawnLimit)
+        {
+            this.spawnDelayRange = spawnDelayRange;
+            this.spawnLimit = spawnLimit;
+        }
+
         private IEnumerator SpawnRobotSimplified()
         {
             yield return new WaitForSeconds(initialDelay);
 
-            while (true)
+            int spawnCounter = 0;
+
+            while (spawnCounter < spawnLimit)
             {
                 IRobot robot = robotFactory.CreateRobotSimplified(true);
                 robot.gameObject.transform.position = transform.position;
@@ -47,7 +56,10 @@ namespace ModularRobot
                 Vector3 pushDirection = Quaternion.Euler(0f, pushAngle, 0f) * transform.forward;
                 robotSimplified.Rigidbody.isKinematic = true;
                 package.Rigidbody.AddForce(pushDirection * forwardPushForce, ForceMode.VelocityChange);
-                
+
+                spawnCounter++;
+
+                float spawnDelay = Random.Range(spawnDelayRange.x, spawnDelayRange.y);
                 yield return new WaitForSeconds(spawnDelay);
             }
         }
@@ -61,6 +73,7 @@ namespace ModularRobot
                 IRobot robot = robotFactory.CreateRobotDefault();
                 robot.gameObject.transform.position = transform.position;
 
+                float spawnDelay = 10f;
                 yield return new WaitForSeconds(spawnDelay);
             }
         }
@@ -74,6 +87,7 @@ namespace ModularRobot
                 IRobot robot = robotFactory.CreateRobotRandom(true);
                 robot.gameObject.transform.position = transform.position;
 
+                float spawnDelay = 10f;
                 yield return new WaitForSeconds(spawnDelay);
             }
         }

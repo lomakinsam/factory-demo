@@ -1,4 +1,7 @@
 using System;
+using UnityEngine;
+using Environment;
+using Resources;
 
 namespace BaseUnit.Commands
 {
@@ -9,12 +12,13 @@ namespace BaseUnit.Commands
         public override event Action<Command> OnCancel;
 
         public override CommandState CommandState => commandState;
-        private CommandState commandState;
 
-        public DisplayableInfo displayableInfo => throw new NotImplementedException();
+        private CommandState commandState;
 
         private readonly IInteractable<Player> interactionTarget;
         private readonly Player interactionSender;
+
+        private Sprite actionSprite;
 
         public InteractCommand(IInteractable<Player> interactionTarget, Player interactionSender)
         {
@@ -37,6 +41,22 @@ namespace BaseUnit.Commands
         {
             commandState = CommandState.Pending;
             OnCancel?.Invoke(this);
+        }
+
+        public Sprite GetActionSprite(CommandVisualisationInfo visualisationInfo)
+        {
+            if (actionSprite != null) return actionSprite;
+
+            if (interactionTarget is Workbench)
+                actionSprite = visualisationInfo.GetActionIcon(new(CommandType.Interact, CommandTarget.Workbench));
+
+            if (interactionTarget is SuppliesPile suppliesPile)
+                actionSprite = visualisationInfo.GetActionIcon(new(CommandType.Interact, CommandTarget.SuppliesPile, suppliesPile.SupplieType));
+
+            if (interactionTarget is DropZone)
+                actionSprite = visualisationInfo.GetActionIcon(new(CommandType.Interact, CommandTarget.DropZone));
+
+            return actionSprite;
         }
     }
 }

@@ -11,11 +11,14 @@ namespace BaseUnit
     {
         [SerializeField] private Camera gameCamera;
         [SerializeField] private Transform inventorySlot;
+        [SerializeField] private CommandsTray commandsTray;
 
         private List<Command> commandsList;
         private const int maxDisplayableCommands = 5;
 
         private Inventory<Component> playerInventory;
+
+        public bool IsReceivingCommands { get; set; }
 
         public bool IsCarryingRepairedRobot
         {
@@ -50,15 +53,20 @@ namespace BaseUnit
         protected override void Awake()
         {
             base.Awake();
-
-            commandsList = new();
-            playerInventory = new();
+            Init();
         }
 
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
                 ReceiveCommands();
+        }
+
+        private void Init()
+        {
+            commandsList = new();
+            playerInventory = new();
+            IsReceivingCommands = true;
         }
 
         public void SetItem(Component item)
@@ -95,7 +103,7 @@ namespace BaseUnit
 
         private void ReceiveCommands()
         {
-            if (displayableCommandsCount >= maxDisplayableCommands) return;
+            if (!IsReceivingCommands || displayableCommandsCount >= maxDisplayableCommands) return;
 
             var ray = gameCamera.ScreenPointToRay(Input.mousePosition);
 
@@ -159,7 +167,7 @@ namespace BaseUnit
 
             if (commandsList.Count == 1) moveCommand.Execute();
 
-            Command grabCommand = new GrabCommand(this, grabbableObject);
+            GrabCommand grabCommand = new GrabCommand(this, grabbableObject);
             commandsList.Add(grabCommand);
 
             moveCommand.OnComplete += SwitchToNextCommand;
@@ -168,6 +176,7 @@ namespace BaseUnit
             grabCommand.OnComplete += SwitchToNextCommand;
             grabCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: grabCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
+            commandsTray.AddCommand(grabCommand);
             UpdateUICommandsPanel();
         }
 
@@ -178,7 +187,7 @@ namespace BaseUnit
 
             if (commandsList.Count == 1) moveCommand.Execute();
 
-            Command interactCommand = new InteractCommand(suppliesPile, this);
+            InteractCommand interactCommand = new InteractCommand(suppliesPile, this);
             commandsList.Add(interactCommand);
 
             moveCommand.OnComplete += SwitchToNextCommand;
@@ -187,6 +196,7 @@ namespace BaseUnit
             interactCommand.OnComplete += SwitchToNextCommand;
             interactCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
+            commandsTray.AddCommand(interactCommand);
             UpdateUICommandsPanel();
         }
 
@@ -197,7 +207,7 @@ namespace BaseUnit
 
             if (commandsList.Count == 1) moveCommand.Execute();
 
-            Command interactCommand = new InteractCommand(workbench, this);
+            InteractCommand interactCommand = new InteractCommand(workbench, this);
             commandsList.Add(interactCommand);
 
             moveCommand.OnComplete += SwitchToNextCommand;
@@ -206,6 +216,7 @@ namespace BaseUnit
             interactCommand.OnComplete += SwitchToNextCommand;
             interactCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
+            commandsTray.AddCommand(interactCommand);
             UpdateUICommandsPanel();
         }
 
@@ -216,7 +227,7 @@ namespace BaseUnit
 
             if (commandsList.Count == 1) moveCommand.Execute();
 
-            Command interactCommand = new InteractCommand(dropZone, this);
+            InteractCommand interactCommand = new InteractCommand(dropZone, this);
             commandsList.Add(interactCommand);
 
             moveCommand.OnComplete += SwitchToNextCommand;
@@ -225,9 +236,9 @@ namespace BaseUnit
             interactCommand.OnComplete += SwitchToNextCommand;
             interactCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
+            commandsTray.AddCommand(interactCommand);
             UpdateUICommandsPanel();
         }
-
 
         private void SwitchToNextCommand(Command executedCommand)
         {
@@ -254,6 +265,9 @@ namespace BaseUnit
 
                 commandsList.Remove(preliminaryCommands[i]);
             }
+
+            if (commandsList.Count > 0)
+                commandsList[0].Execute();
 
             UpdateUICommandsPanel();
         }

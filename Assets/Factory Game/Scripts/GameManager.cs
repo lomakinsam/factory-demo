@@ -2,28 +2,34 @@ using System.Collections;
 using UnityEngine;
 using Environment;
 using TMPro;
+using ModularRobot;
+using BaseUnit;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("Setup")]
+    [Header("Global dependencies")]
+    [SerializeField]
+    private GameplaySettingsData gameplaySettingsData;
+    [Header("Local dependencies")]
+    [SerializeField]
+    private Player player;
+    [SerializeField]
+    private RobotSpawner robotSpawner;
     [SerializeField]
     private DropZone dropZone;
+    [Header("Local UI dependencies")]
+    [SerializeField]
+    private UIHandlerMainScene UIhandler;
     [SerializeField]
     private TextMeshProUGUI deliveredRobotsText;
     [SerializeField]
     private TextMeshProUGUI timerText;
 
-    [Header("Settings")]
-    [SerializeField]
     private float timeLimit = 120f;
-    [SerializeField]
+    private int secondsElapsed = 0;
     private int deliveredRobotsTarget = 6;
-
-    public float TimeLimit { set { timeLimit = value; } }
-    public int DeliveredRobotsTarget { set { deliveredRobotsTarget = value; } }
-
     private int deliveredRobotsCount = 0;
 
     private Coroutine timer;
@@ -31,7 +37,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake() => Init();
 
-    private void Start() => timer = StartCoroutine(Timer());
+    private void Start()
+    {
+        LoadGameplaySettings();
+        timer = StartCoroutine(Timer());
+    }
 
     private void Init()
     {
@@ -43,6 +53,19 @@ public class GameManager : MonoBehaviour
         }
         else
             Destroy(gameObject);
+    }
+
+    private void LoadGameplaySettings()
+    {
+        if (CachedData.Instance == null) return;
+
+        GameDifficulty difficulty = CachedData.Instance.PreferredDifficulty;
+        GameplaySettings gameplaySettings = gameplaySettingsData.GetGameplaySettings(difficulty);
+
+        timeLimit = gameplaySettings.timeLimit;
+        deliveredRobotsTarget = gameplaySettings.requiredRepairs;
+
+        robotSpawner.Configure(gameplaySettings.spawnDelayRange, gameplaySettings.spawnLimit);
     }
 
     private void UpdateDeliveredRobotsCount()
@@ -59,22 +82,25 @@ public class GameManager : MonoBehaviour
     private void DisplayWinScreen()
     {
         StopTimer();
+        UIhandler.ShowWinPanel();
 
-        throw new System.NotImplementedException();
+        player.IsReceivingCommands = false;
+
+        PlayerResult playerResult = new(deliveredRobotsCount, secondsElapsed);
+        CachedData.Instance.SavePlayerResult(playerResult);
     }
 
     private void DisplayLoseScreen()
     {
         StopDeliveredRobotsCount();
+        UIhandler.ShowLosePanel();
 
-        throw new System.NotImplementedException();
+        player.IsReceivingCommands = false;
     }
 
     private IEnumerator Timer()
     {
         yield return null;
-
-        int secondsElapsed = 0;
 
         while (secondsElapsed <= timeLimit)
         {

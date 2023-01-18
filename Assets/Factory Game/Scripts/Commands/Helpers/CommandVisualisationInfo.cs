@@ -13,7 +13,7 @@ namespace BaseUnit.Commands
         [SerializeReference]
         private List<CommandVisualisationData> interact;
 
-        private Dictionary<CommandVisualisationDataRequest, Sprite> sprites = new();
+        private Dictionary<Request, Sprite> sprites = new();
 
         public void OnBeforeSerialize()
         {
@@ -35,14 +35,14 @@ namespace BaseUnit.Commands
 
         private void ToSerializedData()
         {
-            foreach (KeyValuePair<CommandVisualisationDataRequest, Sprite> entry in sprites)
+            foreach (KeyValuePair<Request, Sprite> entry in sprites)
             {
                 CommandVisualisationData item;
 
-                if (entry.Key is CommandVisualisationDataRequest_SuppliesAsTarget customData)
-                    item = new CommandVisualisationData_SuppliesAsTarget(customData.commandTarget, entry.Value, customData.suppliesType);
+                if (entry.Key.supplieType != null)
+                    item = new CommandVisualisationData_SuppliesAsTarget((CommandTarget)entry.Key.commandTarget, entry.Value, (SupplieType)entry.Key.supplieType);
                 else
-                    item = new CommandVisualisationData(entry.Key.commandTarget, entry.Value);
+                   item = new CommandVisualisationData((CommandTarget)entry.Key.commandTarget, entry.Value);
 
                 if (entry.Key.commandType == CommandType.Grab)
                     grab.Add(item);
@@ -57,32 +57,88 @@ namespace BaseUnit.Commands
             for (int i = 0; i < commandsData.Count; i++)
             {
                 if (commandsData[i] == null)
-                    commandsData[i] = new CommandVisualisationData();
+                {
+                    var emptyItem = GenerateUniqueItem(commandType);
 
+                    if (emptyItem == null)
+                        continue;
+                    else
+                        commandsData[i] = emptyItem;
+                }
+                    
                 commandsData[i] = CastToCustomData(commandsData[i]);
 
-                CommandVisualisationDataRequest request;
+                Request request;
 
                 if (commandsData[i] is CommandVisualisationData_SuppliesAsTarget customData)
-                    request = new CommandVisualisationDataRequest_SuppliesAsTarget(commandType, customData.commandTarget, customData.suppliesType);
+                    request = new Request(commandType, customData.commandTarget, customData.suppliesType);
                 else
-                    request = new CommandVisualisationDataRequest(commandType, commandsData[i].commandTarget);
+                    request = new Request(commandType, commandsData[i].commandTarget);
 
-                sprites.Add(request, commandsData[i].actionIcon);
+                if (!sprites.ContainsKey(request))
+                    sprites.Add(request, commandsData[i].actionIcon);
+                else
+                {
+                    var subitem = GenerateUniqueSubitem((CommandType)request.commandType, (CommandTarget)request.commandTarget);
+
+                    if (subitem == null) return;
+
+                    request.supplieType = subitem.suppliesType;
+                    sprites.Add(request, commandsData[i].actionIcon);
+                }
             }
+        }
+
+        private CommandVisualisationData GenerateUniqueItem(CommandType commandType)
+        {
+            for (int i = 0; i < System.Enum.GetValues(typeof(CommandTarget)).Length; i++)
+            {
+                CommandTarget commandTarget = (CommandTarget)i;
+
+                if (commandTarget != CommandTarget.SuppliesPile && commandTarget != CommandTarget.Supplies)
+                {
+                    var request = new Request(commandType, commandTarget);
+
+                    if (sprites.ContainsKey(request))
+                        continue;
+                    else
+                        return new CommandVisualisationData(commandTarget, null);
+                }
+                else
+                    return GenerateUniqueSubitem(commandType, commandTarget);
+            }
+
+            return null;
+        }
+
+        private CommandVisualisationData_SuppliesAsTarget GenerateUniqueSubitem(CommandType commandType, CommandTarget commandTarget)
+        {
+            for (int i = 0; i < System.Enum.GetValues(typeof(SupplieType)).Length; i++)
+            {
+                SupplieType supplieType = (SupplieType)i;
+
+                var request = new Request(commandType, commandTarget, supplieType);
+
+                if (sprites.ContainsKey(request))
+                    continue;
+                else
+                    return new CommandVisualisationData_SuppliesAsTarget(commandTarget, null, supplieType);
+            }
+
+            return null;
         }
 
         private CommandVisualisationData CastToCustomData(CommandVisualisationData data)
         {
             if ((data.commandTarget == CommandTarget.SuppliesPile || data.commandTarget == CommandTarget.Supplies) && data is not CommandVisualisationData_SuppliesAsTarget)
                 data = new CommandVisualisationData_SuppliesAsTarget(data.commandTarget, data.actionIcon, SupplieType.Pink);
-            else if ((data.commandTarget != CommandTarget.SuppliesPile || data.commandTarget != CommandTarget.Supplies) && data is CommandVisualisationData_SuppliesAsTarget)
+            else if (!(data.commandTarget == CommandTarget.SuppliesPile || data.commandTarget == CommandTarget.Supplies) && data is CommandVisualisationData_SuppliesAsTarget)
                 data = new CommandVisualisationData(data.commandTarget, data.actionIcon);
 
             return data;
         }
 
-        public Sprite GetActionIcon(CommandVisualisationDataRequest request)
+        public Sprite GetActionIcon(Request request)
         {
             Sprite value;
             sprites.TryGetValue(request, out value);
@@ -123,25 +179,37 @@ namespace BaseUnit.Commands
         }
     }
 
-    public class CommandVisualisationDataRequest
+    public class Request
     {
-        public CommandType commandType;
-        public CommandTarget commandTarget;
+        public CommandType? commandType;
+        public CommandTarget? commandTarget;
+        public SupplieType? supplieType;
 
-        public CommandVisualisationDataRequest(CommandType commandType, CommandTarget commandTarget)
+        public Request(CommandType commandType, CommandTarget commandTarget)
         {
             this.commandType = commandType;
             this.commandTarget = commandTarget;
+            this.supplieType = null;
         }
-    }
 
-    public class CommandVisualisationDataRequest_SuppliesAsTarget : CommandVisualisationDataRequest
-    {
-        public SupplieType suppliesType;
-
-        public CommandVisualisationDataRequest_SuppliesAsTarget(CommandType commandType, CommandTarget commandTarget, SupplieType suppliesType) : base(commandType, commandTarget)
+        public Request(CommandType commandType, CommandTarget commandTarget, SupplieType supplieType)
         {
-            this.suppliesType = suppliesType;
+            this.commandType = commandType;
+            this.commandTarget = commandTarget;
+            this.supplieType = supplieType;
         }
+
+        public override int GetHashCode()
+        {
+            int commandTypeInt = commandType == null ? 0 : (int)commandType;
+            int commandTargetInt = commandTarget == null ? 0 : (int)commandTarget;
+            int supplieTypeInt = supplieType == null ? 0 : (int)supplieType;
+
+            return commandTypeInt ^ commandTargetInt ^ supplieTypeInt;
+        }
+
+        public override bool Equals(object obj) => Equals(obj as Request);
+
+        public bool Equals(Request obj) => obj != null && obj.commandType == commandType && obj.commandTarget == commandTarget && obj.supplieType == supplieType;
     }
 }

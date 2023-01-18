@@ -12,4 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4b618fb038216745abdfcd680b34082, type: 3}
   m_Name: Gameplay Settings Data
   m_EditorClassIdentifier: 
-  serializeData: []
+  settingsConfig:
+  - difficulty: 0
+    gameplaySettings:
+      timeLimit: 75
+      requiredRepairs: 5
+      spawnLimit: 5
+      spawnDelayRange: {x: 5, y: 8}
+  - difficulty: 1
+    gameplaySettings:
+      timeLimit: 90
+      requiredRepairs: 8
+      spawnLimit: 8
+      spawnDelayRange: {x: 4, y: 7}
+  - difficulty: 2
+    gameplaySettings:
+      timeLimit: 120
+      requiredRepairs: 12
+      spawnLimit: 12
+      spawnDelayRange: {x: 3, y: 5}

@@ -11,8 +11,6 @@ namespace BaseUnit.Commands
         public override CommandState CommandState => commandState;
         private CommandState commandState;
 
-        public DisplayableInfo displayableInfo => throw new NotImplementedException();
-
         private Inventory<T> inventory;
 
         public ThrowCommand(Inventory<T> inventory)

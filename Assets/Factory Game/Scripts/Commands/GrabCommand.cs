@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using ModularRobot;
+using Resources;
 
 namespace BaseUnit.Commands
 {
@@ -12,11 +14,12 @@ namespace BaseUnit.Commands
         public override CommandState CommandState => commandState;
         private CommandState commandState;
 
-        public DisplayableInfo displayableInfo => throw new NotImplementedException();
         public Component Target => item;
 
         private readonly Player player;
         private readonly Component item;
+
+        private Sprite actionSprite;
 
         public GrabCommand(Player player, Component item)
         {
@@ -39,6 +42,23 @@ namespace BaseUnit.Commands
         {
             commandState = CommandState.Pending;
             OnCancel?.Invoke(this);
+        }
+
+        public Sprite GetActionSprite(CommandVisualisationInfo visualisationInfo)
+        {
+            if (actionSprite != null) return actionSprite;
+
+            if (item is Package)
+                actionSprite = visualisationInfo.GetActionIcon(new(CommandType.Grab, CommandTarget.Package));
+
+            if (item is RobotSimplified)
+                actionSprite = visualisationInfo.GetActionIcon(new(CommandType.Grab, CommandTarget.RepairableRobot));
+
+            Supplies itemToSupplies = item as Supplies;
+            if (itemToSupplies != null)
+                actionSprite = visualisationInfo.GetActionIcon(new(CommandType.Grab, CommandTarget.Supplies, itemToSupplies.SuppliesType));
+
+            return actionSprite;
         }
     }
 }
