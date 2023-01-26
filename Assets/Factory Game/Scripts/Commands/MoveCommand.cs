@@ -41,7 +41,7 @@ namespace BaseUnit.Commands
 
         private IEnumerator CompleteExecution()
         {
-            yield return null;
+            yield return new WaitWhile(() => agent.pathPending);
 
             float minDistance = 0.1f;
             yield return new WaitUntil(() => agent.remainingDistance < minDistance);

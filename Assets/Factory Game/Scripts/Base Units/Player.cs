@@ -4,6 +4,7 @@ using BaseUnit.Commands;
 using ModularRobot;
 using Resources;
 using Environment;
+using TrailsPack;
 
 namespace BaseUnit
 {
@@ -12,6 +13,7 @@ namespace BaseUnit
         [SerializeField] private Camera gameCamera;
         [SerializeField] private Transform inventorySlot;
         [SerializeField] private CommandsTray commandsTray;
+        [SerializeField] private Trail trail;
 
         private List<Command> commandsList;
         private const int maxDisplayableCommands = 5;
@@ -165,6 +167,8 @@ namespace BaseUnit
             Command moveCommand = new MoveCommand(navMeshAgent, grabbableObject.transform.position);
             commandsList.Add(moveCommand);
 
+            moveCommand.OnStart += delegate { trail.Draw(transform.position, grabbableObject.transform.position); };
+
             if (commandsList.Count == 1) moveCommand.Execute();
 
             GrabCommand grabCommand = new GrabCommand(this, grabbableObject);
@@ -184,6 +188,8 @@ namespace BaseUnit
         {
             Command moveCommand = new MoveCommand(navMeshAgent, suppliesPile.transform.position);
             commandsList.Add(moveCommand);
+
+            moveCommand.OnStart += delegate { trail.Draw(transform.position, suppliesPile.transform.position); };
 
             if (commandsList.Count == 1) moveCommand.Execute();
 
@@ -205,6 +211,8 @@ namespace BaseUnit
             Command moveCommand = new MoveCommand(navMeshAgent, workbench.transform.position);
             commandsList.Add(moveCommand);
 
+            moveCommand.OnStart += delegate { trail.Draw(transform.position, workbench.transform.position); };
+
             if (commandsList.Count == 1) moveCommand.Execute();
 
             InteractCommand interactCommand = new InteractCommand(workbench, this);
@@ -224,6 +232,8 @@ namespace BaseUnit
         {
             Command moveCommand = new MoveCommand(navMeshAgent, dropZone.transform.position);
             commandsList.Add(moveCommand);
+
+            moveCommand.OnStart += delegate { trail.Draw(transform.position, dropZone.transform.position); };
 
             if (commandsList.Count == 1) moveCommand.Execute();
 

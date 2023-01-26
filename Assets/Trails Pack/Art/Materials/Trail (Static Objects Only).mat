@@ -7,20 +7,24 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GradientFill (Workbench 1)
-  m_Shader: {fileID: -6465566751694194690, guid: f6c8f89157747934095bfeee952adba4,
+  m_Name: Trail (Static Objects Only)
+  m_Shader: {fileID: -6465566751694194690, guid: 06669bf2fcbc84947a9ab876153e8dfc,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Texture2DAsset_c8406382755d4bd59a64c99bcadee8ac_Out_0:
+        m_Texture: {fileID: 2800000, guid: 1437d26a55194fb4293ba2988aab898f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -35,27 +39,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Dissolve: 1.13
-    - _Edge_Width: 0.025
-    - _Emission_Intensity: 0
+    - _Alpha: 0.075
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smooth_Area_Size: 0.01
-    - _Smooth_Edge: 1
-    - _Step: 0
-    - _Test: 0
     m_Colors:
-    - Color_653b09d5e87a4d859b211ae06b30f749: {r: 38.149025, g: 35.35276, b: 0.7989325,
-        a: 0}
-    - _BaseColor: {r: 1, g: 0, b: 0, a: 0}
-    - _BaseColor_One: {r: 1, g: 0, b: 0, a: 0}
-    - _BaseColor_Two: {r: 0, g: 1, b: 0.1086698, a: 0}
-    - _Base_Color: {r: 0.69753474, g: 0.7005593, b: 0.7075472, a: 0}
-    - _Edge_Color: {r: 29.166292, g: 31.121572, b: 3.9105642, a: 0}
-    - _FillColor: {r: 0, g: 1, b: 0.1086698, a: 0}
-    - _Fill_Color: {r: 0, g: 0.504, b: 0.8117647, a: 0}
+    - _Emission_Color: {r: 1, g: 1, b: 0, a: 0}
+    - _Main_Color: {r: 1, g: 0, b: 0, a: 0}
+    - _Offset_Speed: {r: 0, g: 0, b: 0, a: 0}
+    - _Tiling: {r: 0.2, g: 3.96, b: 0, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &5687458452429066243
+--- !u!114 &9089812686732948504
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
