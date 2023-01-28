@@ -10,7 +10,7 @@ public class ScoreResult : MonoBehaviour
 
     public void SetResult(int score, int timeInSeconds)
     {
-        scoreOutputField.text = $"Repairs ~ {score}";
-        timeOutputField.text = $"Time ~ {timeInSeconds / 60}:{timeInSeconds % 60}";
+        scoreOutputField.text = $"Repairs - {score}";
+        timeOutputField.text = $"Time - {timeInSeconds / 60}:{timeInSeconds % 60}";
     }
 }
