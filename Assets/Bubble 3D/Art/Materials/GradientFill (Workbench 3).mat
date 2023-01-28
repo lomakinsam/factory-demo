@@ -42,7 +42,7 @@ Material:
     - _QueueOffset: 0
     - _Smooth_Area_Size: 0.01
     - _Smooth_Edge: 1
-    - _Step: 0
+    - _Step: 1
     - _Test: 0
     m_Colors:
     - Color_653b09d5e87a4d859b211ae06b30f749: {r: 38.149025, g: 35.35276, b: 0.7989325,
