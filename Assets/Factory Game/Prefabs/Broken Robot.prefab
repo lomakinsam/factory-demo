@@ -600,9 +600,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   relatedMaterials:
     noDamage: {fileID: 2100000, guid: 9bc0639c9c6306e4aa2a861907b4f33d, type: 2}
-    lightDamage: {fileID: 2100000, guid: 17991cd7075e1d240aaaea6999996e40, type: 2}
-    averageDamage: {fileID: 2100000, guid: 99129a08484f96343921cab2e23c75ea, type: 2}
-    criticalDamage: {fileID: 2100000, guid: c80aac0dc02e32f4d98e43c0d4963794, type: 2}
+    lightDamage: {fileID: 2100000, guid: 339cde32808915344bbb94e38eeed64a, type: 2}
+    averageDamage: {fileID: 2100000, guid: 5904c749c4329f5499ebef8015f6631c, type: 2}
+    criticalDamage: {fileID: 2100000, guid: 65c91ed5441ec0e42a2645e24bc09bdf, type: 2}
 --- !u!1 &1427854580940944249
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,9 +951,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   relatedMaterials:
     noDamage: {fileID: 2100000, guid: 9bc0639c9c6306e4aa2a861907b4f33d, type: 2}
-    lightDamage: {fileID: 2100000, guid: 17991cd7075e1d240aaaea6999996e40, type: 2}
-    averageDamage: {fileID: 2100000, guid: 99129a08484f96343921cab2e23c75ea, type: 2}
-    criticalDamage: {fileID: 2100000, guid: c80aac0dc02e32f4d98e43c0d4963794, type: 2}
+    lightDamage: {fileID: 2100000, guid: 339cde32808915344bbb94e38eeed64a, type: 2}
+    averageDamage: {fileID: 2100000, guid: 5904c749c4329f5499ebef8015f6631c, type: 2}
+    criticalDamage: {fileID: 2100000, guid: 65c91ed5441ec0e42a2645e24bc09bdf, type: 2}
 --- !u!1 &2507807728197591585
 GameObject:
   m_ObjectHideFlags: 0
