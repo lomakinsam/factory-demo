@@ -181,7 +181,6 @@ namespace BaseUnit
             grabCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: grabCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
             commandsTray.AddCommand(grabCommand);
-            UpdateUICommandsPanel();
         }
 
         private void SuppliesPileRaycastHitResponse(SuppliesPile suppliesPile)
@@ -203,7 +202,6 @@ namespace BaseUnit
             interactCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
             commandsTray.AddCommand(interactCommand);
-            UpdateUICommandsPanel();
         }
 
         private void WorkbenchRaycastHitResponse(Workbench workbench)
@@ -225,7 +223,6 @@ namespace BaseUnit
             interactCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
             commandsTray.AddCommand(interactCommand);
-            UpdateUICommandsPanel();
         }
 
         private void DropZoneRaycastHitResponse(DropZone dropZone)
@@ -247,7 +244,6 @@ namespace BaseUnit
             interactCommand.OnCancel += delegate { CancelCommandsChain(mainCommand: interactCommand, preliminaryCommands: new Command[] { moveCommand }); };
 
             commandsTray.AddCommand(interactCommand);
-            UpdateUICommandsPanel();
         }
 
         private void SwitchToNextCommand(Command executedCommand)
@@ -256,8 +252,6 @@ namespace BaseUnit
 
             if (commandsList.Count > 0)
                 commandsList[0].Execute();
-
-            UpdateUICommandsPanel();
         }
 
         private void CancelCommandsChain(Command mainCommand, Command[] preliminaryCommands)
@@ -278,27 +272,6 @@ namespace BaseUnit
 
             if (commandsList.Count > 0)
                 commandsList[0].Execute();
-
-            UpdateUICommandsPanel();
-        }
-
-        private void UpdateUICommandsPanel() => DebugCommandList();
-
-        private void DebugCommandList()
-        {
-            string debugMassage = "Commands: ";
-
-            foreach (var command in commandsList)
-            {
-                debugMassage += $"{command}";
-
-                if (command is IDisplayable)
-                    debugMassage += " (I) -> ";
-                else
-                    debugMassage += " -> ";
-            }
-
-            Debug.Log(debugMassage);
         }
     }
 }

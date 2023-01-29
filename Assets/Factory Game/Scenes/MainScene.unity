@@ -21440,6 +21440,8 @@ MonoBehaviour:
   winPanel: {fileID: 1478175086}
   losePanel: {fileID: 1177571228}
   commandsTray: {fileID: 1586682394}
+  timeBarBackground: {fileID: 1784944565}
+  progressBarBackground: {fileID: 1611307446}
 --- !u!65 &990241997
 BoxCollider:
   m_ObjectHideFlags: 0

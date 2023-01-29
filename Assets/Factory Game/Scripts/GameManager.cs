@@ -72,8 +72,7 @@ public class GameManager : MonoBehaviour
     {
         deliveredRobotsCount++;
 
-        //deliveredRobotsText.text = $"{deliveredRobotsCount}/{deliveredRobotsTarget}";
-        Debug.Log($"{deliveredRobotsCount}/{deliveredRobotsTarget}");
+        UIhandler.FillProgressBar((float)deliveredRobotsCount / deliveredRobotsTarget);
 
         if (deliveredRobotsCount == deliveredRobotsTarget)
             DisplayWinScreen();
@@ -104,10 +103,10 @@ public class GameManager : MonoBehaviour
 
         while (secondsElapsed <= timeLimit)
         {
-            int minutes = secondsElapsed / 60;
-            int seconds = secondsElapsed % 60;
-            //timerText.text = $"{minutes:00}:{seconds:00}";
-            Debug.Log($"{minutes:00}:{seconds:00}");
+            //int minutes = secondsElapsed / 60;
+            //int seconds = secondsElapsed % 60;
+
+            UIhandler.FillTimeBar((float)(timeLimit - secondsElapsed) / timeLimit);
 
             yield return new WaitForSeconds(1f);
 
