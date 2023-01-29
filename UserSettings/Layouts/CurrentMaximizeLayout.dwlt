@@ -226,9 +226,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 2c5efdff
-      m_LastClickedID: -172500
-      m_ExpandedIDs: 285efdffd6c9fdff5acdfdffd01affff669600007a970000a2990000a09a0000c69b0000
+      m_SelectedIDs: e2760000
+      m_LastClickedID: 0
+      m_ExpandedIDs: d294fcff285efdffd6c9fdff5acdfdffd01affff669600007a970000a2990000c69b0000e4c30500f4c3050006c4050074c405007ec40500
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -696,7 +696,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -705,15 +705,15 @@ MonoBehaviour:
     y: 678
     width: 1464
     height: 269
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 12}
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 11}
   m_Panes:
   - {fileID: 11}
   - {fileID: 12}
   - {fileID: 13}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -756,21 +756,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Factory Game
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets
+  - Assets/Factory Game
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\Repos\factory-demo
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 79}
-    m_SelectedIDs: 708b0000
-    m_LastClickedID: 35696
+    scrollPos: {x: 0, y: 204}
+    m_SelectedIDs: 8a8b0000
+    m_LastClickedID: 35722
     m_ExpandedIDs: 00000000708b0000728b0000748b0000768b0000788b00007a8b00007c8b00007e8b0000808b0000828b0000848b0000868b0000888b00008a8b00008c8b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -824,9 +824,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: a2990000
-    m_LastClickedInstanceID: 39330
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: e2760000
+    m_LastClickedInstanceID: 30434
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300001a7e000052850000e0700000fc87020032720000d8f6000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -915,7 +915,7 @@ MonoBehaviour:
     m_SaveData: []
   m_LockTracker:
     m_IsLocked: 0
-  m_LastSelectedObjectID: -172500
+  m_LastSelectedObjectID: 377882
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52

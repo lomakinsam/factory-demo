@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 #if UNITY_EDITOR
@@ -63,6 +64,7 @@ public class UIHandlerMenu : MonoBehaviour
         CachedData.Instance.SavePreferredDifficulty(preferredDifficulty);
 
         switchDifficultyButtonText.text = preferredDifficulty.ToString();
+        EventSystem.current.SetSelectedGameObject(null, null);
     }
 
     private void QuitGame()

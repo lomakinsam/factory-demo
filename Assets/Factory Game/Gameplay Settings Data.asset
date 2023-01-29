@@ -22,8 +22,8 @@ MonoBehaviour:
   - difficulty: 1
     gameplaySettings:
       timeLimit: 150
-      requiredRepairs: 8
-      spawnLimit: 8
+      requiredRepairs: 6
+      spawnLimit: 6
       spawnDelayRange: {x: 10, y: 15}
   - difficulty: 2
     gameplaySettings:
