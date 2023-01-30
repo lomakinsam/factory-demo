@@ -3892,8 +3892,6 @@ MonoBehaviour:
   robotSpawner: {fileID: 1438576436}
   dropZone: {fileID: 423860695}
   UIhandler: {fileID: 988414326}
-  deliveredRobotsText: {fileID: 0}
-  timerText: {fileID: 0}
 --- !u!1001 &207447990
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29637,8 +29635,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   robotFactory: {fileID: 11400000, guid: 734f828366daed040a055bd95cb7d277, type: 2}
   initialDelay: 2
-  spawnDelayRange: {x: 1, y: 10}
-  spawnLimit: 6
+  spawnDelayRange: {x: 10, y: 15}
+  spawnLimit: 5
   forwardPushLimits: {x: 8, y: 12}
   pushAngleLimits: {x: -10, y: 25}
   packageSide: {fileID: 3552400657763999871, guid: f17949c9b8080f8408f084f695c54d06,

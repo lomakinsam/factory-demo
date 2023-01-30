@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using Environment;
-using TMPro;
 using ModularRobot;
 using BaseUnit;
 
@@ -22,14 +21,10 @@ public class GameManager : MonoBehaviour
     [Header("Local UI dependencies")]
     [SerializeField]
     private UIHandlerMainScene UIhandler;
-    [SerializeField]
-    private TextMeshProUGUI deliveredRobotsText;
-    [SerializeField]
-    private TextMeshProUGUI timerText;
 
-    private float timeLimit = 120f;
+    private float timeLimit = 150f;
     private int secondsElapsed = 0;
-    private int deliveredRobotsTarget = 6;
+    private int deliveredRobotsTarget = 5;
     private int deliveredRobotsCount = 0;
 
     private Coroutine timer;
